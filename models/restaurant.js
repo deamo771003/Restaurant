@@ -11,10 +11,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Restaurant.belongsTo(models.Category, {foreignKey: 'categoryId'})
-      Restaurant.hasMany(models.Comment, { foreignKey: 'restaurantId'})
+      Restaurant.belongsTo(models.Category, { foreignKey: 'categoryId' })
+      Restaurant.hasMany(models.Comment, { foreignKey: 'restaurantId' })
       Restaurant.belongsToMany(models.User, {
-        through: models.Favorites,
+        through: models.Favorite,
         foreignKey: 'restaurantId',
         as: 'FavoritedUsers'
       })
@@ -33,7 +33,6 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.TEXT,
     image: DataTypes.STRING,
     viewCounts: DataTypes.INTEGER,
-    image: DataTypes.STRING,
     category_id: DataTypes.INTEGER,
     view_count: DataTypes.INTEGER
   }, {

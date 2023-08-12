@@ -19,10 +19,12 @@ module.exports = {
         type: Sequelize.STRING
       },
       is_admin: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
       },
       image: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        defaultValue: 'http://randomuser.me/api/portraits/women/26.jpg'
       },
       createdAt: {
         allowNull: false,

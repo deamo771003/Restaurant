@@ -28,16 +28,17 @@ module.exports = {
         type: Sequelize.STRING
       },
       viewCounts: {
-        type: Sequelize.INTEGER
-      },
-      image: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER,
+        allowBull: false,
+        defaultValue: 0
       },
       category_id: {
-        type: Sequelize.INTEGER
-      },
-      view_count: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'Categories',
+          key: 'id'
+        }
       },
       createdAt: {
         allowNull: false,
