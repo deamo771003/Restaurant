@@ -4,7 +4,7 @@ const restaurantController = {
   // Restaurants
   getRestaurants: (req, cb) => {
     const DEFAULT_LIMIT = 9
-    const categoryId = Number(req.query.categoryId) || '' // 抓出網址?後的參數(篩選用)
+    const categoryId = Number(req.query.categoryId) || ''
     const page = Number(req.query.page) || 1
     const limit = Number(req.query.limit) || DEFAULT_LIMIT
     const offset = getOffset(limit, page)
@@ -22,14 +22,13 @@ const restaurantController = {
       Category.findAll({ raw: true })
     ])
       .then(([restaurants, categories]) => {
-        // 多對多關系data資訊從passport抓取，並用req.user取出
-        const favoritedRestaurantsId = req.user?.FavoritedRestaurants ? req.user.FavoritedRestaurants.map(fr => fr.id) : [] // req.user是否存在? 存在的話 FavoritedRestaurants是否存在? 存在跑 map 不存在 []
+        const favoritedRestaurantsId = req.user?.FavoritedRestaurants ? req.user.FavoritedRestaurants.map(fr => fr.id) : []
         const likedRestaurantsId = req.user?.LikedRestaurants ? req.user.LikedRestaurants.map(lr => lr.id) : []
-        const data = restaurants.rows.map(r => ({ // 重新整理資料匯入data
+        const data = restaurants.rows.map(r => ({
           ...r,
-          description: r.description.substring(0, 50), // description前50個字
-          isFavorited: favoritedRestaurantsId.includes(r.id), // 關聯的isFavorited
-          isLiked: likedRestaurantsId.includes(r.id) // 關聯的isLiked
+          description: r.description.substring(0, 50),
+          isFavorited: favoritedRestaurantsId.includes(r.id),
+          isLiked: likedRestaurantsId.includes(r.id)
         }))
         cb(null, {
           restaurants: data,
