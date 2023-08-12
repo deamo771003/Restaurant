@@ -18,7 +18,7 @@ module.exports = {
       address: {
         type: Sequelize.STRING
       },
-      openingHours: {
+      opening_hours: {
         type: Sequelize.STRING
       },
       description: {
@@ -27,7 +27,7 @@ module.exports = {
       image: {
         type: Sequelize.STRING
       },
-      viewCounts: {
+      view_count: {
         type: Sequelize.INTEGER,
         allowBull: false,
         defaultValue: 0
@@ -40,11 +40,11 @@ module.exports = {
           key: 'id'
         }
       },
-      createdAt: {
+      created_at: {
         allowNull: false,
         type: Sequelize.DATE
       },
-      updatedAt: {
+      updated_at: {
         allowNull: false,
         type: Sequelize.DATE
       }

@@ -29,10 +29,9 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     tel: DataTypes.STRING,
     address: DataTypes.STRING,
-    openingHours: DataTypes.STRING,
+    opening_hours: DataTypes.STRING,
     description: DataTypes.TEXT,
     image: DataTypes.STRING,
-    viewCounts: DataTypes.INTEGER,
     category_id: DataTypes.INTEGER,
     view_count: DataTypes.INTEGER
   }, {

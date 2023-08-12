@@ -26,11 +26,11 @@ module.exports = {
         type: Sequelize.STRING,
         defaultValue: 'http://randomuser.me/api/portraits/women/26.jpg'
       },
-      createdAt: {
+      created_at: {
         allowNull: false,
         type: Sequelize.DATE
       },
-      updatedAt: {
+      updated_at: {
         allowNull: false,
         type: Sequelize.DATE
       }
