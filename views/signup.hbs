@@ -1,0 +1,66 @@
+<div class="mb-4 text-center">
+  <h1 class="h3 font-weight-normal mb-3">Sign Up</h1>
+</div>
+<form class="form-signup" action="/users/signup?_method=PUT" method="POST" style="width: 100%;">
+  <div class="form-row mb-3">
+    <label class="form-label" for="name">Name</label>
+    <input type="text" id="name" name="name" class="form-control" placeholder="Name" value="" required autofocus>
+  </div>
+
+  <div class="form-row mb-3">
+    <label class="form-label" for="email">Email</label>
+    <input type="text" id="email" name="email" class="form-control" placeholder="Email" required>
+  </div>
+  <div class="form-row mb-3">
+    <label class="form-label" for="password">Password</label>
+    <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+  </div>
+  <div class="form-row mb-3">
+    <label class="form-label" for="passwordCheck">Password Check</label>
+    <input type="password" id="passwordCheck" name="passwordCheck" class="form-control" placeholder="Password Check"
+      required>
+  </div>
+  <button class="btn btn-primary btn-block" type="submit">Submit</button>
+</form>
+<div class="mb-4 text-center">
+  <p><a href="/users/signin">Sign In</a></p>
+</div>
+
+<script>
+  window.onload = function () {
+    const nameInput = document.getElementById('name')
+    const emailInput = document.getElementById('email')
+    const passwordInput = document.getElementById('password')
+    const passwordCheckInput = document.getElementById('passwordCheck')
+    const form = document.querySelector('.form-signup')
+
+    const storedName = localStorage.getItem('storedName')
+    const storedEmail = localStorage.getItem('storedEmail')
+    const storedPassword = localStorage.getItem('storedPassword')
+    const storedPasswordCheck = localStorage.getItem('storedPasswordCheck')
+
+    if (storedName) {
+      nameInput.value = storedName
+      localStorage.removeItem('storedName')
+    }
+    if (storedEmail) {
+      emailInput.value = storedEmail
+      localStorage.removeItem('storedEmail')
+    }
+    if (storedPassword) {
+      passwordInput.value = storedPassword
+      localStorage.removeItem('storedPassword')
+    }
+    if (storedPasswordCheck) {
+      passwordCheckInput.value = storedPasswordCheck
+      localStorage.removeItem('storedPasswordCheck')
+    }
+
+    form.addEventListener('submit', function (event) {
+      localStorage.setItem('storedName', nameInput.value)
+      localStorage.setItem('storedEmail', emailInput.value)
+      localStorage.setItem('storedPassword', passwordInput.value)
+      localStorage.setItem('storedPasswordCheck', passwordCheckInput.value)
+    })
+  }
+</script>

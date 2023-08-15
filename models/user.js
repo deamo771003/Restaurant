@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      User.hasMany(models.Comment, { foreignKey: 'userId'})
+      User.hasMany(models.Comment, { foreignKey: 'userId' })
       User.belongsToMany(models.Restaurant, {
         through: models.Favorite,
         foreignKey: 'userId',
@@ -36,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   User.init({
     name: DataTypes.STRING,
-    eamil: DataTypes.STRING,
+    email: DataTypes.STRING,
     password: DataTypes.STRING,
     is_admin: DataTypes.BOOLEAN,
     image: DataTypes.STRING

@@ -1,7 +1,7 @@
 const { Restaurant, Category, User, Comment } = require('../models')
 const { getOffset, getPagination } = require('../helpers/pagination-helper')
+
 const restaurantController = {
-  // Restaurants
   getRestaurants: (req, cb) => {
     const DEFAULT_LIMIT = 9
     const categoryId = Number(req.query.categoryId) || ''
