@@ -37,6 +37,30 @@ const restaurantController = {
           pagination: getPagination(limit, page, restaurants.count)
         })
       })
+  },
+  getFeeds: (req, cb) => {
+    return Promise.all([
+      Restaurant.findAll({
+        limit: 10,
+        order: [['createdAt', 'DESC']],
+        include: [Category],
+        raw: true,
+        nest: true
+      }),
+      Comment.findAll({
+        limit: 10,
+        order: [['createdAt', 'DESC']],
+        include: [User, Restaurant],
+        raw: true,
+        nest: true
+      })
+    ])
+      .then(([restaurants, comments]) => {
+        cb(null, {
+          restaurants,
+          comments
+        })
+      })
   }
 }
 

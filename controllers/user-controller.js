@@ -7,7 +7,14 @@ const userController = {
     } catch (err) {
       console.log(err)
     }
-
+  },
+  postSignin: (req, res) => {
+    try {
+      req.flash('success_messages', 'Successfully logged in!')
+      res.redirect('/restaurants')
+    } catch (err) {
+      console.log(err)
+    }
   },
   getSignup: (req, res) => {
     try {
@@ -18,11 +25,13 @@ const userController = {
   },
   putSignup: (req, res, next) => {
     const { name, email, password, passwordCheck } = req.body
-    if (password !== passwordCheck) {
-      const err = new Error('Passwords do not match.')
-      return next(err)
-    }
+    if (password !== passwordCheck) throw new Error('Passwords do not match.')
     userServices.putSignup(req, name, email, password, (err, data) => err ? next(err) : res.redirect('/users/signin'))
+  },
+  postLogout: (req, res, next) => {
+    req.logout()
+    req.flash('success_messages', 'Success logout!')
+    res.redirect('/users/signin')
   }
 }
 
