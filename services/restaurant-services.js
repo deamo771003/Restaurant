@@ -61,6 +61,29 @@ const restaurantController = {
           comments
         })
       })
+  },
+  getRestaurant: (req, cb) => {
+    return Restaurant.findByPk(req.params.id, {
+      include: [
+        Category,
+        { model: Comment, include: User },
+        { model: User, as: 'FavoritedUsers' },
+        { model: User, as: 'LikedUsers' }
+      ]
+    })
+      .then(restaurant => {
+        if (!restaurant) throw new Error("Restaurant didn't exist!")
+        return restaurant.increment('view_count')
+      })
+      .then(restaurant => {
+        const isFavorited = restaurant.FavoritedUsers.some(f => f.id === req.user.id)
+        const isLiked = restaurant.LikedUsers.some(f => f.id === req.user.id)
+        cb(null, {
+          restaurant: restaurant.toJSON(),
+          isFavorited,
+          isLiked
+        })
+      })
   }
 }
 

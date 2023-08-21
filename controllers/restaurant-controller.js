@@ -5,6 +5,9 @@ const restaurantController = {
   },
   getFeeds: (req, res, next) => {
     restaurantServices.getFeeds(req, (err, data) => err? next(err) : res.render('feeds', data))
+  },
+  getRestaurant: (req, res, next) => {
+    restaurantServices.getRestaurant(req, (err, data) => err? next(err) : res.render('restaurant', data))
   }
 }
 

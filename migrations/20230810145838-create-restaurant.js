@@ -29,7 +29,7 @@ module.exports = {
       },
       view_count: {
         type: Sequelize.INTEGER,
-        allowBull: false,
+        allowNull: false,
         defaultValue: 0
       },
       category_id: {
