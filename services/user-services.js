@@ -21,7 +21,27 @@ const userService = {
         })
       })
       .catch(err => {
-        cb(err, null);  // 傳遞錯誤到回調
+        cb(err, null)
+      })
+  },
+  getTopUsers: (req, cb) => {
+    return User.findAll({
+      include: [{ model: User, as: 'Followers' }]
+    })
+      .then(users => {
+        const result = users
+          .map(user => ({
+            ...user.toJSON(),
+            followerCount: user.Followers.length,
+            isFollowed: req.user.Followings.some(f => f.id === user.id)
+          }))
+          .sort((a, b) => b.followerCount - a.followerCount)
+        cb(null, {
+          users: result
+        })
+      })
+      .catch(err => {
+        cb(err, null)
       })
   }
 }

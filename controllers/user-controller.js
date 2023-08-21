@@ -32,6 +32,9 @@ const userController = {
     req.logout()
     req.flash('success_messages', 'Success logout!')
     res.redirect('/users/signin')
+  },
+  getTopUsers: (req, res, next) => {
+    userServices.getTopUsers(req, (err, data) => err ? next(err) : res.render('top-users', data))
   }
 }
 
