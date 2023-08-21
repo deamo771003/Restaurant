@@ -11,6 +11,9 @@ const restaurantController = {
   },
   getDashboard: (req, res, next) => {
     restaurantServices.getDashboard(req, (err, data) => err ? next(err) : res.render('dashboard', data))
+  },
+  getTopRestaurants: (req, res, next) => {
+    restaurantServices.getTopRestaurants(req, (err, data) => err ? next(err) : res.render('top-restaurants', data))
   }
 }
 
