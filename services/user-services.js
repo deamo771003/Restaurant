@@ -15,7 +15,7 @@ const userService = {
           password: hash
         }))
       .then(() => {
-        req.flash('success_messages', 'success sign up!') // 
+        req.flash('success_messages', 'success sign up!')
         cb(null, {
           status: 'success'
         })
