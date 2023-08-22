@@ -31,11 +31,11 @@
                 <button class="btn btn-primary">Show</button>
               </a>
               {{#if this.isFavorited}}
-              <form action="/favorite/{{this.id}}?_method=DELETE" method="post">
+              <form action="/favorites/{{this.id}}?_method=DELETE" method="post">
                 <button class="btn btn-danger m-1" type="submit">移除最愛</button>
               </form>
               {{else}}
-              <form action="/favorite/{{this.id}}" method="post">
+              <form action="/favorites/{{this.id}}" method="post">
                 <button class="btn btn-primary m-1" type="submit">加到最愛</button>
               </form>
               {{/if}}
