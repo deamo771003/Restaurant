@@ -26,11 +26,11 @@
       </a>
       {{!-- Favorite --}}
       {{#if isFavorited }}
-      <form action="/favorites/{{restaurant.id}}?_method=DELETE" method="POST">
+      <form action="/restaurants/favorite/{{restaurant.id}}?_method=DELETE" method="POST">
         <button type="submit" class="btn btn-danger me-1">移除最愛</button>
       </form>
       {{else}}
-      <form action="/favorites/{{restaurant.id}}" method="POST">
+      <form action="/restaurants/favorite/{{restaurant.id}}" method="POST">
         <button type="submit" class="btn btn-primary me-1">加到最愛</button>
       </form>
       {{/if}}
@@ -52,8 +52,8 @@
 <h3 class="mb-3">所有評論：</h3>
 {{#each restaurant.Comments}}
 {{!-- 如果上一層的user.isAdmin才顯示按鈕 --}}
-{{#if ../user.isAdmin}}
-<form action="/comments/{{this.id}}?_method=DELETE" method="POST" class="float-end">
+{{#if ../user.is_admin}}
+<form action="/restaurants/comment/{{this.id}}?_method=DELETE" method="POST" class="float-end">
   <button type="submit" class="btn btn-danger">Delete</button>
 </form>
 {{/if}}
@@ -66,7 +66,7 @@
 <hr />
 {{/each}}
 {{!-- enter Comment --}}
-<form action="/comments" method="POST">
+<form action="/restaurants/comment" method="POST">
   <div class="form-row mb-3">
     <label class="form-label" for="text">留下評論：</label>
     <textarea class="form-control" id="text" name="text" rows="3"></textarea>

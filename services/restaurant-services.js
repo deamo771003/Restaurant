@@ -78,6 +78,7 @@ const restaurantController = {
       .then(restaurant => {
         const isFavorited = restaurant.FavoritedUsers.some(f => f.id === req.user.id)
         const isLiked = restaurant.LikedUsers.some(f => f.id === req.user.id)
+
         cb(null, {
           restaurant: restaurant.toJSON(),
           isFavorited,
@@ -104,7 +105,7 @@ const restaurantController = {
         })
       })
   },
-  getTopRestaurants:(req, cb) => {
+  getTopRestaurants: (req, cb) => {
     return Restaurant.findAll({
       include: [
         Category,
@@ -120,11 +121,96 @@ const restaurantController = {
           }))
           .sort((a, b) => b.favoritedCount - a.favoritedCount)
           .slice(0, 10)
-        cb(null,{
+        cb(null, {
           restaurants: result
         })
       })
       .catch(err => cb(err, null))
+  },
+  addFavorite: (req, restaurantId, cb) => {
+    return Promise.all([
+      Restaurant.findByPk(restaurantId),
+      Favorite.findOne({
+        where: {
+          userId: req.user.id,
+          restaurantId: restaurantId
+        }
+      })
+    ])
+      .then(([restaurant, favorite]) => {
+        if (!restaurant) throw new Error("Restaurant didn't exist!")
+        if (favorite) throw new Error('You have favorited this restaurant!')
+        return Favorite.create({
+          userId: req.user.id,
+          restaurantId: restaurantId
+        })
+      })
+      .then(() => {
+        cb(null, {
+          status: 'success'
+        })
+      })
+      .catch(err => {
+        cb(err, null)
+      })
+  },
+  removeFavorite: (req, cb) => {
+    return Favorite.findOne({
+      where: {
+        userId: req.user.id,
+        restaurantId: req.params.restaurantId
+      }
+    })
+      .then(favorite => {
+        if (!favorite) throw new Error("You haven't favorited this restaurant")
+        return favorite.destroy()
+      })
+      .then(() => {
+        cb(null, {
+          status: 'success'
+        })
+      })
+      .catch(err => {
+        cb(err, null)
+      })
+  },
+  deleteComment: (req, cb) => {
+    return Comment.findByPk(req.params.id)
+      .then(comment => {
+        if (!comment) throw new Error("Comment didn't exist!")
+        return comment.destroy()
+      })
+      .then(deletedComment => {
+        cb(null, {
+          deletedComment
+        })
+      })
+      .catch(err => {
+        cb(err, null)
+      })
+  },
+  postComment: (req, restaurantId, text, userId, cb) => {
+    return Promise.all([
+      User.findByPk(userId),
+      Restaurant.findByPk(restaurantId)
+    ])
+      .then(([user, restaurant]) => {
+        if (!user) throw new Error("User didn't exist!")
+        if (!restaurant) throw new Error("Restaurant didn't exist!")
+        return Comment.create({
+          text,
+          restaurantId,
+          userId
+        })
+      })
+      .then(() => {
+        cb(null, {
+          status: 'success'
+        })
+      })
+      .catch(err => {
+        cb(err, null)
+      })
   }
 }
 
