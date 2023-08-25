@@ -1,4 +1,4 @@
-const { Restaurant, Category, User, Comment, Favorite } = require('../models')
+const { Restaurant, Category, User, Comment, Favorite, Like } = require('../models')
 const { getOffset, getPagination } = require('../helpers/pagination-helper')
 
 const restaurantController = {
@@ -202,6 +202,53 @@ const restaurantController = {
           restaurantId,
           userId
         })
+      })
+      .then(() => {
+        cb(null, {
+          status: 'success'
+        })
+      })
+      .catch(err => {
+        cb(err, null)
+      })
+  },
+  postAddLike: (req, restaurantId, cb) => {
+    return Promise.all([
+      Restaurant.findByPk(restaurantId),
+      Like.findOne({
+        where: {
+          userId: req.user.id,
+          restaurantId
+        }
+      })
+    ])
+      .then(([restaurant, favorite]) => {
+        if (!restaurant) throw new Error("Restaurant didn't exist!")
+        if (favorite) throw new Error('You have favorited this restaurant!')
+        return Like.create({
+          userId: req.user.id,
+          restaurantId
+        })
+      })
+      .then(() => {
+        cb(null, {
+          status: 'success'
+        })
+      })
+      .catch(err => {
+        cb(err, null)
+      })
+  },
+  deleteLike: (req, cb) => {
+    return Like.findOne({
+      where: {
+        userId: req.user.id,
+        restaurantId: req.params.restaurantId
+      }
+    })
+      .then(favorite => {
+        if (!favorite) throw new Error("You haven't favorited this restaurant")
+        return favorite.destroy()
       })
       .then(() => {
         cb(null, {

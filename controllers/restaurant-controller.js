@@ -30,6 +30,14 @@ const restaurantController = {
     const userId = req.user.id
     if (!text) throw new Error('Comment text is required!')
     restaurantServices.postComment(req, restaurantId, text, userId, (err, data) => err ? next(err) : res.redirect(`/restaurants/${restaurantId}`))
+  },
+  postAddLike: (req, res, next) => {
+    const { restaurantId } = req.params
+    restaurantServices.postAddLike(req, restaurantId, (err, data) => err ? next(err) : res.redirect('back'))
+  },
+  deleteLike: (req, res, next) => {
+
+    restaurantServices.deleteLike(req, (err, data) => err ? next(err) : res.redirect('back'))
   }
 }
 
