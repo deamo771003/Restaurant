@@ -35,6 +35,17 @@ const userController = {
   },
   getTopUsers: (req, res, next) => {
     userServices.getTopUsers(req, (err, data) => err ? next(err) : res.render('top-users', data))
+  },
+  getUser: (req, res, next) => {
+    userServices.getUser(req, (err, data) => err ? next(err) : res.render('users/profile', data))
+  },
+  getEditUser: (req, res, next) => {
+    userServices.getEditUser(req, (err, data) => err ? next(err) : res.render('users/edit', data))
+  },
+  putUser: (req, res, next) => {
+    const { name } = req.body
+    const { file } = req
+    userServices.putUser(req, name, file, (err, data) => err ? next(err) : res.redirect(`/users/${req.params.id}`))
   }
 }
 

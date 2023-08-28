@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
+const path = require('path')
 const express = require('express')
 const handlebars = require('express-handlebars')
 const app = express()
@@ -24,6 +28,8 @@ app.use(passport.session())
 app.use(flash())
 
 app.use(methodOverride('_method'))
+
+app.use('/upload', express.static(path.join(__dirname, 'upload')))
 
 app.use((req, res, next) => {
   res.locals.success_messages = req.flash('success_messages')
