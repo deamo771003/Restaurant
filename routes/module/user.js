@@ -4,6 +4,8 @@ const userController = require('../../controllers/user-controller')
 const passport = require('../../config/passport')
 const upload = require('../../middleware/multer')
 
+router.post('/following/:userId', userController.postAddFollowing)
+router.delete('/following/:userId', userController.deleteFollowing)
 router.get('/:id/edit', userController.getEditUser)
 router.get('/top', userController.getTopUsers)
 router.get('/signin', userController.getSignin)

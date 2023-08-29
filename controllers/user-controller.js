@@ -46,6 +46,14 @@ const userController = {
     const { name } = req.body
     const { file } = req
     userServices.putUser(req, name, file, (err, data) => err ? next(err) : res.redirect(`/users/${req.params.id}`))
+  },
+  postAddFollowing: (req, res, next) => {
+    const { userId } = req.params
+    userServices.postAddFollowing(req, userId, (err, data) => err ? next(err) : res.redirect('back'))
+  },
+  deleteFollowing: (req, res, next) => {
+    const { userId } = req.params
+    userServices.deleteFollowing(req, userId, (err, data) => err ? next(err) : res.redirect('back'))
   }
 }
 
