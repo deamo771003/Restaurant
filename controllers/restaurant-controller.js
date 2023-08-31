@@ -36,7 +36,6 @@ const restaurantController = {
     restaurantServices.postAddLike(req, restaurantId, (err, data) => err ? next(err) : res.redirect('back'))
   },
   deleteLike: (req, res, next) => {
-
     restaurantServices.deleteLike(req, (err, data) => err ? next(err) : res.redirect('back'))
   }
 }
