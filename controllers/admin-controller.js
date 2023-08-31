@@ -47,6 +47,33 @@ const adminController = {
       req.flash('success_messages', '使用者權限變更成功')
       return res.redirect('back')
     })
+  },
+  getCategories: (req, res, next) => {
+    adminServices.getCategories(req, (err, data) => err ? next(err) : res.render('admin/categories', data))
+  },
+  postCategory: (req, res, next) => {
+    const { name } = req.body
+    if (!name) throw new Error('Category name is required!')
+    adminServices.postCategory(req, name, (err, data) => {
+      if (err) return next(err)
+      req.flash('success_messages', 'categories was successfully created')
+      return res.redirect('/admin/categories')
+    })
+  },
+  putCategory: (req, res, next) => {
+    const { name } = req.body
+    if (!name) throw new Error('Category name is required!')
+    adminServices.putCategory(req, name, (err, data) => {
+      if (err) return next(err)
+      req.flash('success_message', 'categories was successfully edit')
+      res.redirect('/admin/categories')
+    })
+  },
+  deleteCategory: (req, res, next) => {
+    adminServices.deleteCategory(req, (err, data) => {
+      if (err) return next(err)
+      return res.redirect('/admin/categories')
+    })
   }
 }
 module.exports = adminController
