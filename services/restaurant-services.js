@@ -1,5 +1,6 @@
 const { Restaurant, Category, User, Comment, Favorite, Like } = require('../models')
 const { getOffset, getPagination } = require('../helpers/pagination-helper')
+const { Op } = require('sequelize')
 
 const restaurantController = {
   getRestaurants: (req, cb) => {
@@ -253,6 +254,69 @@ const restaurantController = {
       .then(() => {
         cb(null, {
           status: 'success'
+        })
+      })
+      .catch(err => {
+        cb(err, null)
+      })
+  },
+  getSearch(req, keyword, sortData, sortSelect, cb) {
+    const DEFAULT_LIMIT = 9
+    const categoryId = Number(req.query.categoryId) || ''
+    const page = Number(req.query.page) || 1
+    const limit = Number(req.query.limit) || DEFAULT_LIMIT
+    const offset = getOffset(limit, page)
+    let whereCondition = categoryId ? { categoryId } : {}
+    if (keyword) {
+      whereCondition = {
+        ...whereCondition,
+        [Op.or]: [
+          {
+            name: {
+              [Op.like]: '%' + keyword + '%'
+            }
+          },
+          {
+            '$Category.name$': {
+              [Op.like]: '%' + keyword + '%'
+            }
+          }
+        ]
+      }
+    }
+    Promise.all([
+      Restaurant.findAndCountAll({
+        include: [
+          {
+            model: Category,
+            required: false
+          }
+        ],
+        where: whereCondition,
+        limit,
+        offset,
+        order: sortData,
+        nest: true,
+        raw: true
+      }),
+      Category.findAll({ raw: true })
+    ])
+      .then(([restaurants, categories]) => {
+        const favoritedRestaurantsId = req.user?.FavoritedRestaurants ? req.user.FavoritedRestaurants.map(fr => fr.id) : []
+        const likedRestaurantsId = req.user?.LikedRestaurants ? req.user.LikedRestaurants.map(lr => lr.id) : []
+        const data = restaurants.rows.map(r => ({
+          ...r,
+          description: r.description.substring(0, 50),
+          isFavorited: favoritedRestaurantsId.includes(r.id),
+          isLiked: likedRestaurantsId.includes(r.id)
+        }))
+        cb(null, {
+          restaurants: data,
+          categories,
+          categoryId,
+          keyword,
+          sortSelect,
+          pagination: getPagination(limit, page, restaurants.count)
         })
       })
       .catch(err => {

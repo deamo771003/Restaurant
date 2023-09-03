@@ -37,6 +37,21 @@ const restaurantController = {
   },
   deleteLike: (req, res, next) => {
     restaurantServices.deleteLike(req, (err, data) => err ? next(err) : res.redirect('back'))
+  },
+  getSearch: (req, res, next) => {
+    const keyword = req.query.keyword
+    const sortSelect = req.query.sort
+    let sortData = {}
+    if (sortSelect === 'A-Z') {
+      sortData = [['name', 'asc']]
+    } else if (sortSelect === 'Z-A') {
+      sortData = [['name', 'desc']]
+    } else if (sortSelect === 'Category') {
+      sortData = [['category_id', 'asc']]
+    } else {
+      sortData = [['id', 'asc']]
+    }
+    restaurantServices.getSearch(req, keyword, sortData, sortSelect, ((err, data) => err ? next(err) : res.render('restaurants', data)))
   }
 }
 
