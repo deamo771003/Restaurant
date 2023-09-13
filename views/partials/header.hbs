@@ -25,9 +25,11 @@
             <a href="/users/{{user.id}}" class="nav-link">Profile</a>
           </li>
           {{!-- 登出按鈕 --}}
-          <li class="nav-item">
-            <a href="/users/logout"><button class="btn btn-outline-success my-sm-0 my-2">Logout</button></a>
-          </li>
+          <form action="/users/logout" method="POST" style="display: inline;">
+            <li class="nav-item">
+              <button class="btn btn-outline-success my-sm-0 my-2">Logout</button>
+            </li>
+          </form>
         </ul>
       </div>
       {{/if}}

@@ -28,9 +28,9 @@ const userController = {
     if (password !== passwordCheck) throw new Error('Passwords do not match.')
     userServices.putSignup(req, name, email, password, (err, data) => err ? next(err) : res.redirect('/users/signin'))
   },
-  postLogout: (req, res, next) => {
-    req.logout()
+  postLogout: async (req, res, next) => {
     req.flash('success_messages', 'Success logout!')
+    req.logout()
     res.redirect('/users/signin')
   },
   getTopUsers: (req, res, next) => {

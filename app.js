@@ -1,10 +1,9 @@
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
-const path = require('path')
 const express = require('express')
+const path = require('path')
 const handlebars = require('express-handlebars')
-const app = express()
 const port = process.env.PORT || 3000
 const routes = require('./routes')
 const session = require('express-session')
@@ -13,19 +12,36 @@ const methodOverride = require('method-override')
 const flash = require('connect-flash')
 const passport = require('./config/passport')
 const { getUser } = require('./helpers/auth-helpers')
-const SESSION_SECRET = 'secret'
+const app = express()
+const client = require('./config/redis')
+const RedisStore = require('connect-redis').default
 
 app.engine('hbs', handlebars({ extname: '.hbs', helpers: handlebarsHelpers }))
 app.set('view engine', 'hbs')
 
 app.use(express.urlencoded({ extended: true }))
 
-app.use(session({ secret: SESSION_SECRET, resave: false, saveUninitialized: false }))
+let redisStore = new RedisStore({
+  client: client,
+});
+app.use(session({
+  store: redisStore,
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  rolling: false,
+  saveUninitialized: false,
+  cookie: {
+    maxAge: 60 * 60 * 1000 * 24,
+    secure: process.env.NODE_ENV === 'production',
+    httpOnly: true,
+    sameSite: 'strict',
+  }
+}))
+
+app.use(flash())
 
 app.use(passport.initialize())
 app.use(passport.session())
-
-app.use(flash())
 
 app.use(methodOverride('_method'))
 
