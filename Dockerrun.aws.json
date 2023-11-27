@@ -1,0 +1,29 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  "containerDefinitions": [
+    {
+      "name": "redis",
+      "image": "jimmylin0976458/restaurant:redis-6.2.5-alpine",
+      "essential": true,
+      "memory": 128
+    },
+    {
+      "name": "mysql",
+      "image": "jimmylin0976458/restaurant:mysql-8.1.0",
+      "essential": true,
+      "memory": 512,
+      "environment": [
+        {
+          "name": "MYSQL_ROOT_PASSWORD",
+          "value": "password"
+        }
+      ],
+      "portMappings": [
+        {
+          "hostPort": 3306,
+          "containerPort": 3306
+        }
+      ]
+    }
+  ]
+}

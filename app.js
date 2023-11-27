@@ -4,7 +4,7 @@ if (process.env.NODE_ENV !== 'production') {
 const express = require('express')
 const path = require('path')
 const handlebars = require('express-handlebars')
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 8080
 const routes = require('./routes')
 const session = require('express-session')
 const handlebarsHelpers = require('./helpers/handlebars-helpers')
@@ -21,9 +21,7 @@ app.set('view engine', 'hbs')
 
 app.use(express.urlencoded({ extended: true }))
 
-let redisStore = new RedisStore({
-  client: client,
-});
+let redisStore = new RedisStore({ client })
 app.use(session({
   store: redisStore,
   secret: process.env.SESSION_SECRET,
@@ -32,9 +30,11 @@ app.use(session({
   saveUninitialized: false,
   cookie: {
     maxAge: 60 * 60 * 1000 * 24,
-    secure: process.env.NODE_ENV === 'production',
+    // secure: process.env.NODE_ENV === 'production',
+    secure: false,
     httpOnly: true,
-    sameSite: 'strict',
+    sameSite: 'lax'
+    // sameSite: 'strict'
   }
 }))
 

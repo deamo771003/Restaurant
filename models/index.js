@@ -1,26 +1,24 @@
 'use strict'
 
+require('dotenv').config()
 const fs = require('fs')
 const path = require('path')
 const Sequelize = require('sequelize')
 const basename = path.basename(__filename)
 const env = process.env.NODE_ENV || 'development'
-const config = require(path.resolve(__dirname, '../config/config.json'))[env]
+const config = require('../config/config')[env]
 const db = {}
 
+console.log(`Using environment: ${env}`)
+console.log(`Database host is set to: ${config.host}`)
+
 // 資料庫連線
-let sequelize
-if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], {
-    ...config,
-    logging: false
-  })
-} else {
-  sequelize = new Sequelize(config.database, config.username, config.password, {
-    ...config,
-    logging: false
-  })
-}
+let sequelize = new Sequelize(config.database, config.username, config.password, {
+  host: config.host,
+  dialect: config.dialect,
+  port: config.port,
+  logging: env === "production" ? console.log : false
+})
 
 // 動態引入其他 models
 fs
