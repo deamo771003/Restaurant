@@ -1,6 +1,6 @@
 const redis = require('redis')
 
-const client = redis.createClient(process.env.REDIS_URL)
+const client = redis.createClient({ url: process.env.REDIS_URL })
 
 client.connect()
 
@@ -14,10 +14,15 @@ client.on('connect', () => {
 
 client.on('error', (err) => {
   console.error('Redis err:', err)
+
 })
 
 client.on('end', () => {
-  console.error('Redis connection closed.')
+  console.log('Redis connection closed.')
 })
+
+// client.on('reconnecting', () => {
+//   console.log('Redis client is reconnecting.')
+// })
 
 module.exports = client

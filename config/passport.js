@@ -22,6 +22,7 @@ passport.use(new LocalStrategy(
             return cb(null, user)
           })
       })
+      .catch(err => cb(err, false, req.flash('error_messages', 'Database query error.')))
   }
 ))
 
