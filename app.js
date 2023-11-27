@@ -4,7 +4,7 @@ if (process.env.NODE_ENV !== 'production') {
 const express = require('express')
 const path = require('path')
 const handlebars = require('express-handlebars')
-const port = process.env.PORT || 8080
+const port = process.env.PORT || 3000
 const routes = require('./routes')
 const session = require('express-session')
 const handlebarsHelpers = require('./helpers/handlebars-helpers')
