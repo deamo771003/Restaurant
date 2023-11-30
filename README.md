@@ -1,6 +1,6 @@
 ## Restaurant 餐廳論壇
 
-使用 Node.js、express、express handlebars 全端技術、MySQL Database、sequelize 打造的餐廳論壇
+使用 Node.js、express、express handlebars 全端技術、MySQL Database、Redis、sequelize 打造的餐廳論壇
 
 ## Features 功能
 
@@ -36,6 +36,7 @@ Admin:
 3. express
 4. express-handlebars
 5. sequelize
+6. redis
 
 ## Installing 安裝流程
 
