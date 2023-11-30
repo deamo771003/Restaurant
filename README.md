@@ -98,7 +98,9 @@ npm run dev
 
 1. 安裝 docker desktop
 
+```
 [docker](https://www.docker.com/)官網下載
+```
 
 2. 打開 cmd 輸入
 
