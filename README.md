@@ -104,7 +104,7 @@ npx sequelize db:migrate
 npx sequelize db:seed:all
 ```
 
-10. cmd 輸入啟動
+10. terminal 輸入啟動
 
 ```
 npm run dev
@@ -118,13 +118,13 @@ npm run dev
 [docker](https://www.docker.com/)官網下載
 ```
 
-2. 打開 cmd 輸入
+2. 打開 terminal 輸入
 
 ```
 docker-compose up -d
 ```
 
-3. cmd 輸入啟動
+3. terminal 輸入啟動
 
 ```
 npm run dev
