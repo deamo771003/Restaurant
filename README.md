@@ -14,6 +14,22 @@
 8. Profile 檔案瀏覽與編輯
 9. Admin 管理員 CRUD 功能
 
+## 專案畫面
+
+Register:
+Login:
+![image](https://github.com/deamo771003/Restaurant/blob/master/login.jpg?raw=true)
+Index:
+![image](https://github.com/deamo771003/Restaurant/blob/master/index.jpg?raw=true)
+New:
+![image](https://github.com/deamo771003/Restaurant/blob/master/news.jpg?raw=true)
+User:
+![image](https://github.com/deamo771003/Restaurant/blob/master/User.jpg?raw=true)
+Top10:
+![image](https://github.com/deamo771003/Restaurant/blob/master/top10.jpg?raw=true)
+Admin:
+![image](https://github.com/deamo771003/Restaurant/blob/master/admin.jpg?raw=true)
+
 ## Environment SetUp 環境建置
 
 1. Node.js
