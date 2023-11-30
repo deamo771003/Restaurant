@@ -124,10 +124,10 @@ npm run dev
 docker-compose up -d
 ```
 
-3. terminal 輸入啟動
+3. 瀏覽器
 
 ```
-npm run dev
+http://localhost:3000/
 ```
 
 ## 可使用以下帳號測試
