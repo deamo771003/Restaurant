@@ -16,7 +16,6 @@
 
 ## 專案畫面
 
-Register:
 Login:
 ![image](https://github.com/deamo771003/Restaurant/blob/master/login.jpg?raw=true)
 Index:
