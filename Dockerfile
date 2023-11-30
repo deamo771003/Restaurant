@@ -18,7 +18,7 @@ RUN chmod +x ./init-app.sh
 ENTRYPOINT ["./init-app.sh"]
 
 # Expose the port your app runs on
-EXPOSE 8080
+EXPOSE 3000
 
 # Keep your CMD instruction to run the application
 CMD [ "node", "app.js" ]
