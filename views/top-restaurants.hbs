@@ -7,13 +7,14 @@
       {{#each restaurants}}
       <div class="card mb-4 shadow-sm p-4">
         <div class="d-flex align-items-center">
-          <div class="col-5">
+          <div class="col-5 me-3">
             <a href="/restaurants/{{this.id}}">
               {{#if this.image}}
-              <img src="{{this.image}}" width="250px" height="250px" style="transition: opacity 0.5s; opacity:0;"
+              <img class="img-fluid" src="{{this.image}}" style="transition: opacity 0.5s; opacity:0;"
                 onload="this.style.opacity=1;" />
               {{else}}
-              <img src="https://fakeimg.pl/280/" width="250px" height="250px" />
+              <img class="img-fluid" src="https://fakeimg.pl/280/" style="transition: opacity 0.5s; opacity:0;"
+                onload="this.style.opacity=1;" />
               {{/if}}
             </a>
           </div>
