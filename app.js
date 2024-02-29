@@ -13,14 +13,11 @@ const app = express()
 const client = require('./config/redis')
 const RedisStore = require('connect-redis').default
 const { loadSecrets } = require('./helpers/loadSecrets')
-const initializePassport = require('./config/passport')
 
 async function startApp() {
   if (process.env.NODE_ENV == 'production') {
     await loadSecrets()
   }
-
-  await initializePassport()
 
   const handlebarsHelpers = require('./helpers/handlebars-helpers')
   app.engine('hbs', handlebars({ extname: '.hbs', helpers: handlebarsHelpers }))
