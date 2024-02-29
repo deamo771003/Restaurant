@@ -9,6 +9,10 @@ const config = require('../config/config')[env]
 const db = {}
 const { loadSecrets } = require('../helpers/loadSecrets')
 
+if (process.env.NODE_ENV == 'production') {
+  await loadSecrets()
+}
+
 console.log(process.env.RDS_HOSTNAME)
 console.log(`Using environment: ${env}`)
 console.log(`Database host is set to: ${config.host}`)
@@ -56,9 +60,7 @@ async function runSeeders() {
 // 初始化數據庫和運行 seeders
 async function initializeDatabase() {
   try {
-    if (process.env.NODE_ENV == 'production') {
-      await loadSecrets()
-    }
+
     await sequelize.authenticate()
     console.log('Connection has been established successfully.')
     await sequelize.sync({ force: true })  // 在開發環境中可考慮使用 { force: true }
