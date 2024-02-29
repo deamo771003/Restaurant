@@ -1,4 +1,4 @@
-import { SecretsManagerClient, GetSecretValueCommand } from "@aws-sdk/client-secrets-manager";
+const { SecretsManagerClient, GetSecretValueCommand } = require('@aws-sdk/client-secrets-manager')
 
 // 創建 Secrets Manager 客戶端實例
 const client = new SecretsManagerClient({ region: "ap-northeast-1" });
