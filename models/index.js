@@ -9,6 +9,7 @@ const config = require('../config/config')[env]
 const db = {}
 const { loadSecrets } = require('../helpers/loadSecrets')
 
+console.log(process.env.RDS_HOSTNAME)
 console.log(`Using environment: ${env}`)
 console.log(`Database host is set to: ${config.host}`)
 
