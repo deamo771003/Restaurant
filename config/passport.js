@@ -7,13 +7,13 @@ const LocalStrategy = require('passport-local').Strategy
 const FacebookStrategy = require('passport-facebook').Strategy
 const bcrypt = require('bcryptjs')
 const { User, Restaurant } = require('../models')
-const { loadSecrets } = require('../helpers/loadSecrets')
+// const { loadSecrets } = require('../helpers/loadSecrets')
 
-  (async () => {
-    if (process.env.NODE_ENV == 'production') {
-      await loadSecrets()
-    }
-  })();
+//   (async () => {
+//     if (process.env.NODE_ENV == 'production') {
+//       await loadSecrets()
+//     }
+//   })();
 
 passport.use(new LocalStrategy({
   usernameField: 'email',
@@ -35,26 +35,26 @@ passport.use(new LocalStrategy({
   }
 }));
 
-passport.use(new FacebookStrategy({
-  clientID: process.env.FACEBOOK_ID,
-  clientSecret: process.env.FACEBOOK_SECRET,
-  callbackURL: process.env.FACEBOOK_CALLBACK,
-  profileFields: ['email', 'displayName']
-}, async (accessToken, refreshToken, profile, done) => {
-  const { email, name } = profile._json;
-  try {
-    let user = await User.findOne({ where: { email } });
-    if (user) {
-      return done(null, user);
-    }
-    const randomPassword = Math.random().toString(36).slice(-8);
-    const hashedPassword = await bcrypt.hash(randomPassword, 10);
-    user = await User.create({ name, email, password: hashedPassword });
-    return done(null, user);
-  } catch (err) {
-    return done(err, false);
-  }
-}));
+// passport.use(new FacebookStrategy({
+//   clientID: process.env.FACEBOOK_ID,
+//   clientSecret: process.env.FACEBOOK_SECRET,
+//   callbackURL: process.env.FACEBOOK_CALLBACK,
+//   profileFields: ['email', 'displayName']
+// }, async (accessToken, refreshToken, profile, done) => {
+//   const { email, name } = profile._json;
+//   try {
+//     let user = await User.findOne({ where: { email } });
+//     if (user) {
+//       return done(null, user);
+//     }
+//     const randomPassword = Math.random().toString(36).slice(-8);
+//     const hashedPassword = await bcrypt.hash(randomPassword, 10);
+//     user = await User.create({ name, email, password: hashedPassword });
+//     return done(null, user);
+//   } catch (err) {
+//     return done(err, false);
+//   }
+// }));
 
 passport.serializeUser((user, cb) => cb(null, user.id));
 passport.deserializeUser(async (id, cb) => {
