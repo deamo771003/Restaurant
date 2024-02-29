@@ -7,6 +7,7 @@ const basename = path.basename(__filename)
 const env = process.env.NODE_ENV || 'development'
 const config = require('../config/config')[env]
 const db = {}
+const { loadSecrets } = require('../helpers/loadSecrets')
 
 console.log(`Using environment: ${env}`)
 console.log(`Database host is set to: ${config.host}`)
@@ -54,6 +55,9 @@ async function runSeeders() {
 // 初始化數據庫和運行 seeders
 async function initializeDatabase() {
   try {
+    if (process.env.NODE_ENV == 'production') {
+      await loadSecrets()
+    }
     await sequelize.authenticate()
     console.log('Connection has been established successfully.')
     await sequelize.sync({ force: true })  // 在開發環境中可考慮使用 { force: true }

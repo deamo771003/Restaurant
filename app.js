@@ -15,7 +15,9 @@ const RedisStore = require('connect-redis').default
 const { loadSecrets } = require('./helpers/loadSecrets')
 
   (async () => {
-    await loadSecrets()
+    if (process.env.NODE_ENV == 'production') {
+      await loadSecrets()
+    }
 
     // 設置模板引擎
     const handlebarsHelpers = require('./helpers/handlebars-helpers')
