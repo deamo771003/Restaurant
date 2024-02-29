@@ -14,15 +14,14 @@ const RedisStore = require('connect-redis').default
 const { loadSecrets } = require('./helpers/loadSecrets')
 
   (async () => {
-    if (process.env.NODE_ENV == 'production') {
+    if (process.env.NODE_ENV === 'production') {
       await loadSecrets()
       console.log(process.env.RDS_HOSTNAME)
     }
 
     const db = require('./models')
-    db.initializeDatabase().then(() => {
-      console.log('Database initialization is complete.')
-    })
+    await db.initializeDatabase()
+    console.log('Database initialization is complete.')
 
     // 設置模板引擎
     const handlebarsHelpers = require('./helpers/handlebars-helpers')
