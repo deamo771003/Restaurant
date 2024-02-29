@@ -10,7 +10,7 @@ const { loadSecrets } = require('../helpers/loadSecrets');
 
 const client = redis.createClient({ url: process.env.REDIS_URL })
 
-await client.connect()
+// await client.connect()
 
 client.on('ready', () => {
   console.log('Redis client is ready.')
