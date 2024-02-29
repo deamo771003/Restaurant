@@ -29,15 +29,25 @@ async function initialize() {
       return file.indexOf('.') !== 0 && file !== basename && file.slice(-3) === '.js';
     })
     .forEach(file => {
-      const modelDefiner = require(path.join(__dirname, file));
-      const model = modelDefiner(sequelize, Sequelize.DataTypes);
-      db[model.name] = model;
+      const modelPath = path.join(__dirname, file);
+      const model = require(modelPath)(sequelize, Sequelize.DataTypes);
+      if (model && model.name) {
+        console.log(`Model loaded: ${model.name}`);
+        db[model.name] = model;
+      } else {
+        console.log(`Failed to load model from file: ${file}`);
+      }
     });
 
+  console.log('Associating models...');
   Object.keys(db).forEach(modelName => {
-    if (db[modelName].associate) {
+    if (db[modelName] && db[modelName].associate) {
       console.log(`Associating model: ${modelName}`);
       db[modelName].associate(db);
+    } else if (!db[modelName]) {
+      console.log(`Model ${modelName} is not loaded correctly.`);
+    } else {
+      console.log(`No associations for model: ${modelName}`);
     }
   });
 
