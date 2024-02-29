@@ -27,6 +27,7 @@ services:
     #   - REDIS_URL=redis://redis:6379
     environment:
       - NODE_ENV=production
+      - PORT=80
     # ports:
     #   - "3000:3000"
     ports:

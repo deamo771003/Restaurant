@@ -4,7 +4,6 @@ const { loadSecrets } = require('../helpers/loadSecrets');
 (async () => {
   if (process.env.NODE_ENV == 'production') {
     await loadSecrets()
-    console.log(process.env.REDIS_URL)
   }
 })();
 
