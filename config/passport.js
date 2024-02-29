@@ -10,7 +10,7 @@ const { User, Restaurant } = require('../models')
 const { loadSecrets } = require('../helpers/loadSecrets');
 
 async function initializePassport() {
-  if (process.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV == 'production') {
     await loadSecrets()
   }
 
