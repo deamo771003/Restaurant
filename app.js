@@ -12,16 +12,16 @@ const app = express()
 const client = require('./config/redis')
 const RedisStore = require('connect-redis').default
 const { loadSecrets } = require('./helpers/loadSecrets')
+const initializePassport = require('./config/passport')
 
   (async () => {
     if (process.env.NODE_ENV === 'production') {
       await loadSecrets()
-      console.log(process.env.RDS_HOSTNAME)
     }
 
-    const db = require('./models')
-    await db.initializeDatabase()
-    console.log('Database initialization is complete.')
+    initializePassport().then(() => {
+      console.log('Passport configuration has been initialized.');
+    })
 
     // 設置模板引擎
     const handlebarsHelpers = require('./helpers/handlebars-helpers')
