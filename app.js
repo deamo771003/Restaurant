@@ -11,7 +11,7 @@ const flash = require('connect-flash')
 const { getUser } = require('./helpers/auth-helpers')
 const app = express()
 const client = require('./config/redis')
-const RedisStore = require('connect-redis').default
+// const RedisStore = require('connect-redis').default
 const { loadSecrets } = require('./helpers/loadSecrets')
 const handlebarsHelpers = require('./helpers/handlebars-helpers')
 const passport = require('./config/passport')
@@ -27,9 +27,9 @@ async function startApp() {
   app.set('view engine', 'hbs')
 
   app.use(express.urlencoded({ extended: true }))
-  let redisStore = new RedisStore({ client })
+  // let redisStore = new RedisStore({ client })
   app.use(session({
-    store: redisStore,
+    // store: redisStore,
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,

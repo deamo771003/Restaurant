@@ -17,7 +17,6 @@ let sequelize;
 async function initialize() {
   if (env == 'production') {
     await loadSecrets()
-    console.log(process.env.RDS_HOSTNAME)
     console.log('Secrets loaded.')
     config = {
       username: process.env.RDS_USERNAME,
