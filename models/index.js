@@ -15,14 +15,14 @@ let sequelize;
 
 async function initialize() {
   if (env === 'production') {
-    await loadSecrets();
-    console.log('Secrets loaded.');
+    await loadSecrets()
+    console.log('Secrets loaded.')
   }
 
   console.log(`Using environment: ${env}`);
   console.log(`Database host is set to: ${config.host}`);
 
-  sequelize = new Sequelize(config.database, config.username, config.password, {
+  const sequelize = new Sequelize(config.database, config.username, config.password, {
     host: config.host,
     dialect: config.dialect,
     port: config.port,
@@ -34,8 +34,10 @@ async function initialize() {
       return file.indexOf('.') !== 0 && file !== basename && file.slice(-3) === '.js';
     })
     .forEach(file => {
-      const model = sequelize['import'](path.join(__dirname, file));
+      const modelPath = path.join(__dirname, file);
+      const model = require(modelPath)(sequelize, Sequelize.DataTypes);
       db[model.name] = model;
+
     });
 
   Object.keys(db).forEach(modelName => {
@@ -44,7 +46,19 @@ async function initialize() {
     }
   });
 
-  await initializeDatabase();
+  await initializeDatabase(sequelize);
+}
+
+async function initializeDatabase(sequelize) {
+  try {
+    await sequelize.authenticate();
+    console.log('Connection has been established successfully.');
+    await sequelize.sync({ force: env !== 'production' });
+    console.log('All models were synchronized successfully.');
+    await runSeeders(sequelize);
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
+  }
 }
 
 async function runSeeders() {
@@ -59,18 +73,6 @@ async function runSeeders() {
     console.log('Seeders have been executed successfully.');
   } else {
     console.log('Database already has data. Skipping seeders.');
-  }
-}
-
-async function initializeDatabase() {
-  try {
-    await sequelize.authenticate();
-    console.log('Connection has been established successfully.');
-    await sequelize.sync({ force: env !== 'production' });
-    console.log('All models were synchronized successfully.');
-    await runSeeders();
-  } catch (error) {
-    console.error('Unable to connect to the database:', error);
   }
 }
 
