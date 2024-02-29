@@ -1,28 +1,35 @@
-const redis = require('redis')
+const redis = require('redis');
+const { loadSecrets } = require('../helpers/loadSecrets');
 
-const client = redis.createClient({ url: process.env.REDIS_URL })
+(async () => {
+  if (process.env.NODE_ENV === 'production') {
+    await loadSecrets()
+  }
 
-client.connect()
+  const client = redis.createClient({ url: process.env.REDIS_URL })
 
-client.on('ready', () => {
-  console.log('Redis client is ready.')
-})
+  await client.connect()
 
-client.on('connect', () => {
-  console.log('Redis client has connected to the server.')
-})
+  client.on('ready', () => {
+    console.log('Redis client is ready.')
+  });
 
-client.on('error', (err) => {
-  console.error('Redis err:', err)
+  client.on('connect', () => {
+    console.log('Redis client has connected to the server.')
+  });
 
-})
+  client.on('error', (err) => {
+    console.error('Redis err:', err)
+  });
 
-client.on('end', () => {
-  console.log('Redis connection closed.')
-})
+  client.on('end', () => {
+    console.log('Redis connection closed.')
+  });
 
-// client.on('reconnecting', () => {
-//   console.log('Redis client is reconnecting.')
-// })
+  // Uncomment if needed
+  // client.on('reconnecting', () => {
+  //   console.log('Redis client is reconnecting.');
+  // });
 
-module.exports = client
+  module.exports = client
+})();
