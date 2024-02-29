@@ -1,8 +1,8 @@
-const redis = require('redis');
+const redis = require('redis')
 const { loadSecrets } = require('../helpers/loadSecrets');
 
 (async () => {
-  if (process.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV == 'production') {
     await loadSecrets()
   }
 

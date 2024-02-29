@@ -1,6 +1,7 @@
-const dotenv = require('dotenv')
-dotenv.config()
-
+if (process.env.NODE_ENV !== 'production') {
+  const dotenv = require('dotenv')
+  dotenv.config()
+}
 const { loadSecrets } = require('../helpers/loadSecrets');
 
 (async () => {

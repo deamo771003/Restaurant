@@ -1,12 +1,13 @@
-const dotenv = require('dotenv');
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
-const FacebookStrategy = require('passport-facebook').Strategy;
-const bcrypt = require('bcryptjs');
-const { User, Restaurant } = require('../models');
-const { loadSecrets } = require('../helpers/loadSecrets');
-
-dotenv.config();
+if (process.env.NODE_ENV !== 'production') {
+  const dotenv = require('dotenv')
+  dotenv.config()
+}
+const passport = require('passport')
+const LocalStrategy = require('passport-local').Strategy
+const FacebookStrategy = require('passport-facebook').Strategy
+const bcrypt = require('bcryptjs')
+const { User, Restaurant } = require('../models')
+const { loadSecrets } = require('../helpers/loadSecrets')
 
 async function initializePassport() {
   // 在生產環境中異步加載秘密

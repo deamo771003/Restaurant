@@ -1,4 +1,3 @@
-require('dotenv').config()
 const { getSecret } = require('./getSecretsManager')
 const secretName = 'restaurant-AWS-secret'
 
