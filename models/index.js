@@ -8,7 +8,7 @@ const path = require('path');
 const Sequelize = require('sequelize');
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
-const config = require('../config/config')[env];
+let config = require('../config/config')[env];
 const db = {};
 const { loadSecrets } = require('../helpers/loadSecrets');
 
@@ -19,6 +19,14 @@ async function initialize() {
     await loadSecrets()
     console.log(process.env.RDS_HOSTNAME)
     console.log('Secrets loaded.')
+    config = {
+      username: process.env.RDS_USERNAME,
+      password: process.env.RDS_PASSWORD,
+      database: process.env.RDS_DB_NAME,
+      host: process.env.RDS_HOSTNAME,
+      port: process.env.RDS_DB_PORT,
+      dialect: 'mysql'
+    }
   }
 
   console.log(`Using environment: ${env}`);
