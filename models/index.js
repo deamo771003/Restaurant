@@ -9,9 +9,11 @@ const config = require('../config/config')[env]
 const db = {}
 const { loadSecrets } = require('../helpers/loadSecrets')
 
-if (process.env.NODE_ENV == 'production') {
-  await loadSecrets()
-}
+  (async () => {
+    if (process.env.NODE_ENV == 'production') {
+      await loadSecrets()
+    }
+  })()
 
 console.log(process.env.RDS_HOSTNAME)
 console.log(`Using environment: ${env}`)
