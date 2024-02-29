@@ -13,13 +13,16 @@ const app = express()
 const client = require('./config/redis')
 const RedisStore = require('connect-redis').default
 const { loadSecrets } = require('./helpers/loadSecrets')
+const handlebarsHelpers = require('./helpers/handlebars-helpers')
+const passport = require('./config/passport')
+const routes = require('./routes')
+const port = process.env.PORT || 3000
 
 async function startApp() {
   if (process.env.NODE_ENV == 'production') {
     await loadSecrets()
   }
 
-  const handlebarsHelpers = require('./helpers/handlebars-helpers')
   app.engine('hbs', handlebars({ extname: '.hbs', helpers: handlebarsHelpers }))
   app.set('view engine', 'hbs')
 
@@ -52,10 +55,8 @@ async function startApp() {
     next()
   });
 
-  const routes = require('./routes')
   app.use(routes);
 
-  const port = process.env.PORT || 3000;
   app.listen(port, () => {
     console.info(`listening on port ${port}`)
   })
