@@ -16,6 +16,7 @@ const { loadSecrets } = require('./helpers/loadSecrets')
   (async () => {
     if (process.env.NODE_ENV == 'production') {
       await loadSecrets()
+      console.log(process.env.RDS_HOSTNAME)
     }
 
     const db = require('./models')
