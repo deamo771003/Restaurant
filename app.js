@@ -19,9 +19,8 @@ const initializePassport = require('./config/passport')
       await loadSecrets()
     }
 
-    initializePassport().then(() => {
-      console.log('Passport configuration has been initialized.');
-    })
+    await initializePassport()
+    console.log('Passport configuration has been initialized.');
 
     // 設置模板引擎
     const handlebarsHelpers = require('./helpers/handlebars-helpers')
