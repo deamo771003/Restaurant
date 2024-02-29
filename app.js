@@ -69,6 +69,6 @@ const initializePassport = require('./config/passport')
     app.listen(port, () => {
       console.info(`listening on port ${port}`)
     })
-  })()
+  })();
 
 module.exports = app
