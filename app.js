@@ -19,6 +19,11 @@ const { loadSecrets } = require('./helpers/loadSecrets')
       await loadSecrets()
     }
 
+    const db = require('./models')
+    db.initializeDatabase().then(() => {
+      console.log('Database initialization is complete.')
+    })
+
     // 設置模板引擎
     const handlebarsHelpers = require('./helpers/handlebars-helpers')
     app.engine('hbs', handlebars({ extname: '.hbs', helpers: handlebarsHelpers }))
@@ -59,11 +64,6 @@ const { loadSecrets } = require('./helpers/loadSecrets')
     // 引入路由
     const routes = require('./routes')
     app.use(routes)
-
-    const db = require('./models')
-    db.initializeDatabase().then(() => {
-      console.log('Database initialization is complete.')
-    })
 
     // 監聽端口
     const port = process.env.PORT || 3000
