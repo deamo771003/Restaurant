@@ -5,6 +5,7 @@ const { loadSecrets } = require('../helpers/loadSecrets');
   if (process.env.NODE_ENV == 'production') {
     await loadSecrets()
   }
+  await client.connect()
 })();
 
 const client = redis.createClient({ url: process.env.REDIS_URL })
