@@ -4,10 +4,7 @@ if (process.env.NODE_ENV !== 'production') {
 const express = require('express')
 const path = require('path')
 const handlebars = require('express-handlebars')
-const port = process.env.PORT || 3000
-const routes = require('./routes')
 const session = require('express-session')
-const handlebarsHelpers = require('./helpers/handlebars-helpers')
 const methodOverride = require('method-override')
 const flash = require('connect-flash')
 const passport = require('./config/passport')
@@ -15,48 +12,62 @@ const { getUser } = require('./helpers/auth-helpers')
 const app = express()
 const client = require('./config/redis')
 const RedisStore = require('connect-redis').default
+const { loadSecrets } = require('./helpers/loadSecrets')
 
-app.engine('hbs', handlebars({ extname: '.hbs', helpers: handlebarsHelpers }))
-app.set('view engine', 'hbs')
+  (async () => {
+    await loadSecrets()
 
-app.use(express.urlencoded({ extended: true }))
+    // 設置模板引擎
+    const handlebarsHelpers = require('./helpers/handlebars-helpers')
+    app.engine('hbs', handlebars({ extname: '.hbs', helpers: handlebarsHelpers }))
+    app.set('view engine', 'hbs')
 
-let redisStore = new RedisStore({ client })
-app.use(session({
-  store: redisStore,
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  rolling: false,
-  saveUninitialized: false,
-  cookie: {
-    maxAge: 60 * 60 * 1000 * 24,
-    // secure: process.env.NODE_ENV === 'production',
-    secure: false,
-    httpOnly: true,
-    sameSite: 'lax'
-  }
-}))
+    // 設置中間件
+    app.use(express.urlencoded({ extended: true }))
+    let redisStore = new RedisStore({ client })
+    app.use(session({
+      store: redisStore,
+      secret: process.env.SESSION_SECRET,
+      resave: false,
+      saveUninitialized: false,
+      cookie: {
+        maxAge: 60 * 60 * 1000 * 24,
+        secure: false,
+        httpOnly: true,
+        sameSite: 'lax'
+      }
+    }))
 
-app.use(flash())
+    app.use(flash())
+    app.use(passport.initialize())
+    app.use(passport.session())
+    app.use(methodOverride('_method'))
 
-app.use(passport.initialize())
-app.use(passport.session())
+    // 設置靜態檔案路徑
+    app.use('/upload', express.static(path.join(__dirname, 'upload')))
 
-app.use(methodOverride('_method'))
+    // 設置全局變量
+    app.use((req, res, next) => {
+      res.locals.success_messages = req.flash('success_messages')
+      res.locals.error_messages = req.flash('error_messages')
+      res.locals.user = getUser(req)
+      next()
+    })
 
-app.use('/upload', express.static(path.join(__dirname, 'upload')))
+    // 引入路由
+    const routes = require('./routes')
+    app.use(routes)
 
-app.use((req, res, next) => {
-  res.locals.success_messages = req.flash('success_messages')
-  res.locals.error_messages = req.flash('error_messages')
-  res.locals.user = getUser(req)
-  next()
-})
+    const db = require('./models')
+    db.initializeDatabase().then(() => {
+      console.log('Database initialization is complete.')
+    })
 
-app.use(routes)
-
-app.listen(port, () => {
-  console.info(`listening on port ${port}`)
-})
+    // 監聽端口
+    const port = process.env.PORT || 3000
+    app.listen(port, () => {
+      console.info(`listening on port ${port}`)
+    })
+  })()
 
 module.exports = app

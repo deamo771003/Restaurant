@@ -1,5 +1,4 @@
 'use strict'
-
 require('dotenv').config()
 const fs = require('fs')
 const path = require('path')
@@ -38,8 +37,36 @@ Object.keys(db).forEach(modelName => {
   }
 })
 
+async function runSeeders() {
+  const usersCount = await db.User.count()
+  if (usersCount === 0) {
+    console.log('Running seeders...')
+    await require('../seeders/20230523031140-users-seed-file').up(sequelize.getQueryInterface(), Sequelize)
+    await require('../seeders/20230525092648-categories-seed-file').up(sequelize.getQueryInterface(), Sequelize)
+    await require('../seeders/20230525092649-restaurants-seed-file').up(sequelize.getQueryInterface(), Sequelize)
+    await require('../seeders/20230527154731-user-comment-seed').up(sequelize.getQueryInterface(), Sequelize)
+    console.log('Seeders have been executed successfully.')
+  } else {
+    console.log('Database already has data. Skipping seeders.')
+  }
+}
+
+// 初始化數據庫和運行 seeders
+async function initializeDatabase() {
+  try {
+    await sequelize.authenticate()
+    console.log('Connection has been established successfully.')
+    await sequelize.sync({ force: true })  // 在開發環境中可考慮使用 { force: true }
+    console.log('All models were synchronized successfully.')
+    await runSeeders()
+  } catch (error) {
+    console.error('Unable to connect to the database:', error)
+  }
+}
+
 // 匯出需要的物件
 db.sequelize = sequelize
 db.Sequelize = Sequelize
+db.initializeDatabase = initializeDatabase
 
 module.exports = db
