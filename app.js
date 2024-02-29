@@ -16,6 +16,7 @@ const initializePassport = require('./config/passport');
 (async () => {
   if (process.env.NODE_ENV === 'production') {
     await loadSecrets()
+    console.log(process.env.RDS_HOSTNAME)
   }
 
   await initializePassport();
