@@ -11,7 +11,7 @@ const { loadSecrets } = require('../helpers/loadSecrets')
 
 async function initializePassport() {
   // 在生產環境中異步加載秘密
-  if (process.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV == 'production') {
     await loadSecrets();
   }
 

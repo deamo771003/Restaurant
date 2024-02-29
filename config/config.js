@@ -5,7 +5,7 @@ if (process.env.NODE_ENV !== 'production') {
 const { loadSecrets } = require('../helpers/loadSecrets');
 
 (async () => {
-  if (process.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV == 'production') {
     await loadSecrets()
   }
 })();
