@@ -2,7 +2,7 @@ require('dotenv').config()
 const { getSecret } = require('./getSecretsManager')
 const secretName = 'restaurant-AWS-secret'
 
-export async function loadSecrets() {
+async function loadSecrets() {
   try {
     const secrets = await getSecret(secretName)
     process.env.RDS_USERNAME = secrets.RDS_USERNAME
@@ -21,3 +21,5 @@ export async function loadSecrets() {
     process.exit(1)
   }
 }
+
+module.exports = { loadSecrets }
