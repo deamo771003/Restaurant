@@ -15,11 +15,11 @@ const { loadSecrets } = require('../helpers/loadSecrets');
 let sequelize;
 
 async function initialize() {
-  if (env == 'production') {
-    await loadSecrets();
-    console.log(process.env.RDS_HOSTNAME)
-    console.log('Secrets loaded.');
-  }
+  // if (env == 'production') {
+  //   await loadSecrets()
+  //   console.log(process.env.RDS_HOSTNAME)
+  //   console.log('Secrets loaded.')
+  // }
 
   console.log(`Using environment: ${env}`);
   console.log(`Database host is set to: ${config.host}`);

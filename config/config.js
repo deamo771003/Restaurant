@@ -2,13 +2,6 @@ if (process.env.NODE_ENV !== 'production') {
   const dotenv = require('dotenv')
   dotenv.config()
 }
-const { loadSecrets } = require('../helpers/loadSecrets');
-
-(async () => {
-  if (process.env.NODE_ENV == 'production') {
-    await loadSecrets()
-  }
-})();
 
 module.exports = {
   development: {
