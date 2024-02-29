@@ -3,6 +3,7 @@ const LocalStrategy = require('passport-local').Strategy
 const FacebookStrategy = require('passport-facebook').Strategy
 const bcrypt = require('bcryptjs')
 const { User, Restaurant } = require('../models')
+
 // set up Passport strategy
 passport.use(new LocalStrategy(
   // customize user field

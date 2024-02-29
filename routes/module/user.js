@@ -10,7 +10,8 @@ router.delete('/following/:userId', authenticated, userController.deleteFollowin
 router.get('/:id/edit', authenticated, userController.getEditUser)
 router.get('/top', authenticated, userController.getTopUsers)
 router.get('/signin', userController.getSignin)
-router.post('/signin', passport.authenticate('local', { failureRedirect: '/users/signin', failureFlash: true }), userController.postSignin)
+router.post('/signin',
+  passport.authenticate('local', { failureRedirect: '/users/signin', failureFlash: true }), userController.postSignin)
 router.get('/signup', userController.getSignup)
 router.put('/signup', userController.putSignup)
 router.post('/logout', authenticated, userController.postLogout)
