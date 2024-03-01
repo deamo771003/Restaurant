@@ -41,6 +41,7 @@ async function initialize() {
     .forEach(file => {
       console.log(`filter.file=${file}`)
       const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
+      console.log(`model=${model}`)
       db[model.name] = model;
     });
 
