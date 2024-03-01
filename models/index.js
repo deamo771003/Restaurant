@@ -26,14 +26,9 @@ async function initialize() {
       port: process.env.RDS_DB_PORT,
       dialect: 'mysql'
     }
-
     sequelize = new Sequelize(config.database, config.username, config.password, config);
   }
 
-  await initializeDatabase()
-}
-
-async function initializeDatabase() {
   try {
     await sequelize.authenticate()
     console.log('Connection has been established successfully.')
@@ -43,10 +38,6 @@ async function initializeDatabase() {
     console.error('Unable to connect to the database:', error)
   }
 }
-
-(async () => {
-  await initialize()
-})();
 
 // 使用互動模組提取 models 路徑
 fs
@@ -68,5 +59,6 @@ Object.keys(db).forEach(modelName => {
 
 db.sequelize = sequelize
 db.Sequelize = Sequelize
+db.initialize = initialize
 
 module.exports = db

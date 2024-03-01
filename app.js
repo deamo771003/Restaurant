@@ -17,11 +17,15 @@ const handlebarsHelpers = require('./helpers/handlebars-helpers')
 const passport = require('./config/passport')
 const routes = require('./routes')
 const port = process.env.PORT || 3000
+const db = require('./models')
 
 async function startApp() {
   if (process.env.NODE_ENV == 'production') {
     await loadSecrets()
   }
+
+  await db.initialize()
+  console.log('Database and models are initialized.')
 
   app.engine('hbs', handlebars({ extname: '.hbs', helpers: handlebarsHelpers }))
   app.set('view engine', 'hbs')
