@@ -37,8 +37,9 @@ async function initialize() {
     .filter(file => {
       return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) == '.js');
     })
-  console.log(`filter.file=${file}`)
+  
     .forEach(file => {
+      console.log(`filter.file=${file}`)
       const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
       db[model.name] = model;
     });
