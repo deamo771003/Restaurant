@@ -14,7 +14,6 @@ const db = {}
 const { loadSecrets } = require('../helpers/loadSecrets')
 
 let sequelize
-initialize()
 async function initialize() {
   if (env == 'production') {
     await loadSecrets()
@@ -27,13 +26,30 @@ async function initialize() {
       port: process.env.RDS_DB_PORT,
       dialect: 'mysql'
     }
-    console.log(`RDS_HOSTNAME=${process.env.RDS_HOSTNAME}`)
+
+    sequelize = new Sequelize(config.database, config.username, config.password, config);
+
+    // 使用互動模組提取 models 路徑
+    fs
+      .readdirSync(__dirname)
+      .filter(file => {
+        return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) == '.js');
+      })
+
+      .forEach(file => {
+        const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
+        db[model.name] = model;
+      });
+
+    Object.keys(db).forEach(modelName => {
+      if (modelName !== "sequelize" && modelName !== "Sequelize" && db[modelName].associate) {
+        db[modelName].associate(db);
+      }
+    })
+
+    db.sequelize = sequelize
+    db.Sequelize = Sequelize
   }
-
-  sequelize = new Sequelize(config.database, config.username, config.password, config);
-
-  // 使用互動模組提取 models 路徑
-
 
   // await initializeDatabase()
 }
@@ -50,38 +66,5 @@ async function initialize() {
 //   }
 // }
 
-// async function runSeeders() {
-//   const usersCount = await db.User.count()
-//   if (usersCount == 0) {
-//     console.log('Running seeders...')
-//     await require('../seeders/20230523031140-users-seed-file').up(sequelize.getQueryInterface(), Sequelize)
-//     await require('../seeders/20230525092648-categories-seed-file').up(sequelize.getQueryInterface(), Sequelize)
-//     await require('../seeders/20230525092649-restaurants-seed-file').up(sequelize.getQueryInterface(), Sequelize)
-//     await require('../seeders/20230527154731-user-comment-seed').up(sequelize.getQueryInterface(), Sequelize)
-//     console.log('Seeders have been executed successfully.')
-//   } else {
-//     console.log('Database already has data. Skipping seeders.')
-//   }
-// }
-
-fs
-  .readdirSync(__dirname)
-  .filter(file => {
-    return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) == '.js');
-  })
-
-  .forEach(file => {
-    const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
-    db[model.name] = model;
-  });
-
-Object.keys(db).forEach(modelName => {
-  if (modelName !== "sequelize" && modelName !== "Sequelize" && db[modelName].associate) {
-    db[modelName].associate(db);
-  }
-})
-
-db.sequelize = sequelize
-db.Sequelize = Sequelize
-
+await initialize()
 module.exports = db
