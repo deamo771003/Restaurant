@@ -10,7 +10,7 @@ const { User, Restaurant } = require('../models')
 const { loadSecrets } = require('../helpers/loadSecrets')
 
 async function initialize() {
-  if (env == 'production') {
+  if (process.env.PORT == 'production') {
     await loadSecrets()
   }
   console.log('Secrets loaded.')
