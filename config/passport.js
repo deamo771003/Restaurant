@@ -7,6 +7,26 @@ const LocalStrategy = require('passport-local').Strategy
 // const FacebookStrategy = require('passport-facebook').Strategy
 const bcrypt = require('bcryptjs')
 const { User, Restaurant } = require('../models')
+const { loadSecrets } = require('../helpers/loadSecrets')
+
+async function initialize() {
+  if (env == 'production') {
+    await loadSecrets()
+  }
+  console.log('Secrets loaded.')
+  config = {
+    username: process.env.RDS_USERNAME,
+    password: process.env.RDS_PASSWORD,
+    database: process.env.RDS_DB_NAME,
+    host: process.env.RDS_HOSTNAME,
+    port: process.env.RDS_DB_PORT,
+    dialect: 'mysql'
+  }
+}
+
+(async () => {
+  await initialize()
+})();
 
 passport.use(new LocalStrategy({
   usernameField: 'email',
