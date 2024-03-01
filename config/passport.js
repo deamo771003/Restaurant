@@ -10,13 +10,11 @@ const { User, Restaurant } = require('../models')
 const { loadSecrets } = require('../helpers/loadSecrets')
 
 async function productionLoadSecrets() {
-  if (process.env.PORT == 'production') {
+  if (process.env.NODE_ENV == 'production') {
     await loadSecrets()
   }
   console.log('Secrets loaded.')
 }
-
-
 
 passport.use(new LocalStrategy({
   usernameField: 'email',
