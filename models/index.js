@@ -26,7 +26,7 @@ async function initialize() {
       port: process.env.RDS_DB_PORT,
       dialect: 'mysql'
     }
-    console.log(`RDS_HOSTNAME=${RDS_HOSTNAME}`)
+    console.log(`RDS_HOSTNAME=${process.env.RDS_HOSTNAME}`)
   }
 
   if (config.use_env_variable) {
