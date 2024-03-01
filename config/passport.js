@@ -4,7 +4,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
-const FacebookStrategy = require('passport-facebook').Strategy
+// const FacebookStrategy = require('passport-facebook').Strategy
 const bcrypt = require('bcryptjs')
 const { User, Restaurant } = require('../models')
 // const { loadSecrets } = require('../helpers/loadSecrets')
