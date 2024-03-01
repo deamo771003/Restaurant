@@ -9,24 +9,14 @@ const bcrypt = require('bcryptjs')
 const { User, Restaurant } = require('../models')
 const { loadSecrets } = require('../helpers/loadSecrets')
 
-async function initialize() {
+async function productionLoadSecrets() {
   if (process.env.PORT == 'production') {
     await loadSecrets()
   }
   console.log('Secrets loaded.')
-  config = {
-    username: process.env.RDS_USERNAME,
-    password: process.env.RDS_PASSWORD,
-    database: process.env.RDS_DB_NAME,
-    host: process.env.RDS_HOSTNAME,
-    port: process.env.RDS_DB_PORT,
-    dialect: 'mysql'
-  }
 }
 
-(async () => {
-  await initialize()
-})();
+
 
 passport.use(new LocalStrategy({
   usernameField: 'email',
@@ -34,6 +24,7 @@ passport.use(new LocalStrategy({
   passReqToCallback: true
 }, async (req, email, password, cb) => {
   try {
+    await productionLoadSecrets()
     const user = await User.findOne({ where: { email } });
     if (!user) {
       return cb(null, false, req.flash('error_messages', '帳號或密碼輸入錯誤！'));
