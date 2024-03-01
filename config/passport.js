@@ -8,7 +8,6 @@ const LocalStrategy = require('passport-local').Strategy
 const bcrypt = require('bcryptjs')
 const { User, Restaurant } = require('../models')
 
-console.log(`passport User= ${User}`)
 passport.use(new LocalStrategy({
   usernameField: 'email',
   passwordField: 'password',
