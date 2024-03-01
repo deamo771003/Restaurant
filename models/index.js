@@ -31,11 +31,13 @@ async function initialize() {
 
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 
+  // 使用互動模組提取 models 路徑
   fs
     .readdirSync(__dirname)
     .filter(file => {
       return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) == '.js');
     })
+  console.log(`filter.file=${file}`)
     .forEach(file => {
       const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
       db[model.name] = model;
