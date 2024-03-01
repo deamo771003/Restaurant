@@ -8,15 +8,11 @@ WORKDIR /usr/src/app
 # Copy package files and install dependencies
 COPY package*.json ./
 RUN npm install
+RUN apt-get update && \
+  apt-get install -y default-mysql-client
 
 # Copy the rest of your application
 COPY . .
-
-# Make sure your init-app.sh script is executable
-# RUN chmod +x ./init-app.sh
-
-# This will run your init-app.sh script when the container starts
-# ENTRYPOINT ["./init-app.sh"]
 
 # Expose the port your app runs on
 EXPOSE 80
