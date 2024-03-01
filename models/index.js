@@ -14,58 +14,46 @@ const db = {}
 const { loadSecrets } = require('../helpers/loadSecrets')
 
 let sequelize
-
 async function initialize() {
   if (env == 'production') {
-    await loadSecrets();
-    console.log('Secrets loaded.')
-    config = {
-      username: process.env.RDS_USERNAME,
-      password: process.env.RDS_PASSWORD,
-      database: process.env.RDS_DB_NAME,
-      host: process.env.RDS_HOSTNAME,
-      port: process.env.RDS_DB_PORT,
-      dialect: 'mysql'
-    };
+    await loadSecrets()
   }
-
-  sequelize = new Sequelize(config.database, config.username, config.password, config)
-
-  try {
-    await sequelize.authenticate()
-    console.log('Connection has been established successfully.')
-  } catch (error) {
-    console.error('Unable to connect to the database:', error)
-    throw error
+  console.log('Secrets loaded.')
+  config = {
+    username: process.env.RDS_USERNAME,
+    password: process.env.RDS_PASSWORD,
+    database: process.env.RDS_DB_NAME,
+    host: process.env.RDS_HOSTNAME,
+    port: process.env.RDS_DB_PORT,
+    dialect: 'mysql'
   }
-
-  loadModels()
-  associateModels()
-  await sequelize.sync()
-  console.log('All models were synchronized successfully.')
 }
 
-function loadModels() {
-  fs.readdirSync(__dirname)
-    .filter(file => {
-      return file.indexOf('.') !== 0 && file !== basename && file.slice(-3) === '.js'
-    })
-    .forEach(file => {
-      const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
-      db[model.name] = model;
-    })
-}
+(async () => {
+  await initialize()
+})();
 
-function associateModels() {
-  Object.keys(db).forEach(modelName => {
-    if (modelName !== "sequelize" && modelName !== "Sequelize" && db[modelName].associate) {
-      db[modelName].associate(db)
-    }
+sequelize = new Sequelize(config.database, config.username, config.password, config)
+
+// 使用互動模組提取 models 路徑
+fs
+  .readdirSync(__dirname)
+  .filter(file => {
+    return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) == '.js');
   })
-}
+
+  .forEach(file => {
+    const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
+    db[model.name] = model;
+  });
+
+Object.keys(db).forEach(modelName => {
+  if (modelName !== "sequelize" && modelName !== "Sequelize" && db[modelName].associate) {
+    db[modelName].associate(db);
+  }
+})
 
 db.sequelize = sequelize
 db.Sequelize = Sequelize
-db.initialize = initialize
 
 module.exports = db
