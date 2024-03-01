@@ -51,20 +51,20 @@ async function initialize() {
     db.Sequelize = Sequelize
   }
 
-  // await initializeDatabase()
+  await initializeDatabase()
 }
 
-// async function initializeDatabase() {
-//   try {
-//     await sequelize.authenticate()
-//     console.log('Connection has been established successfully.')
-//     await sequelize.sync({ force: true })
-//     console.log('All models were synchronized successfully.')
-//     await runSeeders()
-//   } catch (error) {
-//     console.error('Unable to connect to the database:', error)
-//   }
-// }
+async function initializeDatabase() {
+  try {
+    await sequelize.authenticate()
+    console.log('Connection has been established successfully.')
+    await sequelize.sync()
+    console.log('All models were synchronized successfully.')
+    await runSeeders()
+  } catch (error) {
+    console.error('Unable to connect to the database:', error)
+  }
+}
 
 (async () => {
   await initialize()
