@@ -51,34 +51,34 @@ async function initialize() {
     }
   })
 
-  await initializeDatabase()
+  // await initializeDatabase()
 }
 
-async function initializeDatabase() {
-  try {
-    await sequelize.authenticate()
-    console.log('Connection has been established successfully.')
-    await sequelize.sync({ force: true })
-    console.log('All models were synchronized successfully.')
-    await runSeeders()
-  } catch (error) {
-    console.error('Unable to connect to the database:', error)
-  }
-}
+// async function initializeDatabase() {
+//   try {
+//     await sequelize.authenticate()
+//     console.log('Connection has been established successfully.')
+//     await sequelize.sync({ force: true })
+//     console.log('All models were synchronized successfully.')
+//     await runSeeders()
+//   } catch (error) {
+//     console.error('Unable to connect to the database:', error)
+//   }
+// }
 
-async function runSeeders() {
-  const usersCount = await db.User.count()
-  if (usersCount == 0) {
-    console.log('Running seeders...')
-    await require('../seeders/20230523031140-users-seed-file').up(sequelize.getQueryInterface(), Sequelize)
-    await require('../seeders/20230525092648-categories-seed-file').up(sequelize.getQueryInterface(), Sequelize)
-    await require('../seeders/20230525092649-restaurants-seed-file').up(sequelize.getQueryInterface(), Sequelize)
-    await require('../seeders/20230527154731-user-comment-seed').up(sequelize.getQueryInterface(), Sequelize)
-    console.log('Seeders have been executed successfully.')
-  } else {
-    console.log('Database already has data. Skipping seeders.')
-  }
-}
+// async function runSeeders() {
+//   const usersCount = await db.User.count()
+//   if (usersCount == 0) {
+//     console.log('Running seeders...')
+//     await require('../seeders/20230523031140-users-seed-file').up(sequelize.getQueryInterface(), Sequelize)
+//     await require('../seeders/20230525092648-categories-seed-file').up(sequelize.getQueryInterface(), Sequelize)
+//     await require('../seeders/20230525092649-restaurants-seed-file').up(sequelize.getQueryInterface(), Sequelize)
+//     await require('../seeders/20230527154731-user-comment-seed').up(sequelize.getQueryInterface(), Sequelize)
+//     console.log('Seeders have been executed successfully.')
+//   } else {
+//     console.log('Database already has data. Skipping seeders.')
+//   }
+// }
 
 initialize()
 
