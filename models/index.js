@@ -48,7 +48,7 @@ async function initialize() {
     });
 
   Object.keys(db).forEach(modelName => {
-    console.log(`db=${db}`)
+    console.log(`modelName=${modelName}`)
     if (db[modelName].associate) {
       db[modelName].associate(db);
     }
