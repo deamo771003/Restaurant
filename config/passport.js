@@ -7,13 +7,6 @@ const LocalStrategy = require('passport-local').Strategy
 // const FacebookStrategy = require('passport-facebook').Strategy
 const bcrypt = require('bcryptjs')
 const { User, Restaurant } = require('../models')
-// const { loadSecrets } = require('../helpers/loadSecrets')
-
-//   (async () => {
-//     if (process.env.NODE_ENV == 'production') {
-//       await loadSecrets()
-//     }
-//   })();
 
 console.log(`passport User= ${User}`)
 passport.use(new LocalStrategy({
