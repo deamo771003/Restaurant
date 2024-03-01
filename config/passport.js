@@ -13,7 +13,7 @@ async function productionLoadSecrets() {
   if (process.env.NODE_ENV == 'production') {
     await loadSecrets()
   }
-  console.log('Secrets loaded.')
+  console.log('Passport Secrets loaded.')
 }
 
 passport.use(new LocalStrategy({
