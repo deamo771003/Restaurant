@@ -58,6 +58,24 @@ async function initialize() {
   }
 }
 
+// 使用互動模組提取 models 路徑
+fs
+  .readdirSync(__dirname)
+  .filter(file => {
+    return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) == '.js');
+  })
+
+  .forEach(file => {
+    const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
+    db[model.name] = model;
+  });
+
+Object.keys(db).forEach(modelName => {
+  if (modelName !== "sequelize" && modelName !== "Sequelize" && db[modelName].associate) {
+    db[modelName].associate(db);
+  }
+})
+
 db.sequelize = sequelize
 db.Sequelize = Sequelize
 db.initialize = initialize
