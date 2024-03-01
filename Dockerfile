@@ -8,6 +8,8 @@ WORKDIR /usr/src/app
 # Copy package files and install dependencies
 COPY package*.json ./
 RUN npm install
+
+# 安裝 mysql 模組
 RUN apt-get update && \
   apt-get install -y default-mysql-client
 

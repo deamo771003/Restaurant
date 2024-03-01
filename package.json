@@ -6,7 +6,8 @@
     "start": "node app.js",
     "dev": "nodemon app.js",
     "sequelize": "sequelize",
-    "migrate": "node scripts/run-migrate.js"
+    "migrate": "node scripts/run-migrate.js",
+    "seeders": "node scripts/run-seeders.js"
   },
   "dependencies": {
     "@aws-sdk/client-secrets-manager": "^3.523.0",

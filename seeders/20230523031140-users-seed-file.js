@@ -11,14 +11,14 @@ module.exports = {
       updated_at: new Date()
     }, {
       email: 'user1@example.com',
-      password: await bcrypt.hash('12345678', 10),
+      password: await bcrypt.hash('123456', 10),
       is_admin: false,
       name: 'user1',
       created_at: new Date(),
       updated_at: new Date()
     }, {
       email: 'user2@example.com',
-      password: await bcrypt.hash('12345678', 10),
+      password: await bcrypt.hash('123456', 10),
       is_admin: false,
       name: 'user2',
       created_at: new Date(),
