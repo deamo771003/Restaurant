@@ -23,6 +23,7 @@ passport.use(new LocalStrategy({
 }, async (req, email, password, cb) => {
   try {
     await productionLoadSecrets()
+    console.log(`Passport RDS_HOSTNAME= ${process.env.RDS_HOSTNAME}`)
     const user = await User.findOne({ where: { email } });
     if (!user) {
       return cb(null, false, req.flash('error_messages', '帳號或密碼輸入錯誤！'));
