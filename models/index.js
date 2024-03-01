@@ -26,6 +26,7 @@ async function initialize() {
       port: process.env.RDS_DB_PORT,
       dialect: 'mysql'
     }
+    console.log(`RDS_HOSTNAME=${RDS_HOSTNAME}`)
   }
 
   if (config.use_env_variable) {
@@ -57,7 +58,7 @@ async function initializeDatabase() {
   try {
     await sequelize.authenticate()
     console.log('Connection has been established successfully.')
-    await sequelize.sync({ force: env !== 'production' })
+    await sequelize.sync({ force: true })
     console.log('All models were synchronized successfully.')
     await runSeeders()
   } catch (error) {
