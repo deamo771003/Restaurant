@@ -49,7 +49,7 @@ async function initialize() {
 
   Object.keys(db).forEach(modelName => {
     console.log(`modelName=${modelName}`)
-    if (db[modelName].associate) {
+    if (modelName !== "sequelize" && modelName !== "Sequelize" && db[modelName].associate) {
       db[modelName].associate(db);
     }
   })
