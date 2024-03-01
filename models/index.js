@@ -66,5 +66,7 @@ async function initialize() {
 //   }
 // }
 
-await initialize()
+(async () => {
+  await initialize()
+})();
 module.exports = db
