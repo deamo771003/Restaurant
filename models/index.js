@@ -40,15 +40,11 @@ async function initialize() {
     })
 
     .forEach(file => {
-      console.log(`filter.file=${file}`)
       const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
-      console.log(`model=${model}`)
       db[model.name] = model;
-      console.log(`db[model.name]=${db[model.name]}`)
     });
 
   Object.keys(db).forEach(modelName => {
-    console.log(`modelName=${modelName}`)
     if (modelName !== "sequelize" && modelName !== "Sequelize" && db[modelName].associate) {
       db[modelName].associate(db);
     }
