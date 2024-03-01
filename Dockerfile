@@ -9,8 +9,6 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm install
 
-RUN apt-get install default-mysql-client
-
 # Copy the rest of your application
 COPY . .
 
