@@ -14,7 +14,7 @@ const db = {}
 const { loadSecrets } = require('../helpers/loadSecrets')
 
 let sequelize
-
+initialize()
 async function initialize() {
   if (env == 'production') {
     await loadSecrets()
@@ -80,8 +80,6 @@ Object.keys(db).forEach(modelName => {
     db[modelName].associate(db);
   }
 })
-
-initialize()
 
 db.sequelize = sequelize
 db.Sequelize = Sequelize
