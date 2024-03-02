@@ -6,7 +6,7 @@ const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 // const FacebookStrategy = require('passport-facebook').Strategy
 const bcrypt = require('bcryptjs')
-const { User, Restaurant } = require('../models')
+const { User, Restaurant } = require('../models').db
 
 passport.use(new LocalStrategy({
   usernameField: 'email',
