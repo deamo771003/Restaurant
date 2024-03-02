@@ -35,32 +35,29 @@ async function initializeDatabase() {
   } catch (error) {
     console.error('Unable to connect to the database:', error);
   }
-}
+  fs
+    .readdirSync(__dirname)
+    .filter(file => {
+      return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) == '.js');
+    })
 
-(async () => {
-  await initializeDatabase()
-})();
+    .forEach(file => {
+      const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
+      db[model.name] = model;
+    });
 
-// 使用互動模組提取 models 路徑
-fs
-  .readdirSync(__dirname)
-  .filter(file => {
-    return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) == '.js');
+  Object.keys(db).forEach(modelName => {
+    if (modelName !== "sequelize" && modelName !== "Sequelize" && db[modelName].associate) {
+      db[modelName].associate(db);
+    }
   })
 
-  .forEach(file => {
-    const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
-    db[model.name] = model;
-  });
+  db.sequelize = sequelize
+  db.Sequelize = Sequelize
+}
 
-Object.keys(db).forEach(modelName => {
-  if (modelName !== "sequelize" && modelName !== "Sequelize" && db[modelName].associate) {
-    db[modelName].associate(db);
-  }
-})
+// 使用互動模組提取 models 路徑
 
-db.sequelize = sequelize
-db.Sequelize = Sequelize
 db.initializeDatabase = initializeDatabase
 
 module.exports = db
