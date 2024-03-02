@@ -7,23 +7,23 @@ const LocalStrategy = require('passport-local').Strategy
 // const FacebookStrategy = require('passport-facebook').Strategy
 const bcrypt = require('bcryptjs')
 const { User, Restaurant } = require('../models')
-const db = require('../models')
+// const db = require('../models')
 
-async function runDB() {
-  db.initializeDatabase().then(() => {
-    console.log('Database initialization complete.')
-    // Any other logic that should happen after database initialization
-  }).catch(err => {
-    console.error('Database initialization failed:', err)
-  })
-}
+// async function runDB() {
+//   db.initializeDatabase().then(() => {
+//     console.log('Database initialization complete.')
+//     // Any other logic that should happen after database initialization
+//   }).catch(err => {
+//     console.error('Database initialization failed:', err)
+//   })
+// }
 
 passport.use(new LocalStrategy({
   usernameField: 'email',
   passwordField: 'password',
   passReqToCallback: true
 }, async (req, email, password, cb) => {
-  await runDB()
+  // await runDB()
   try {
     const user = await User.findOne({ where: { email } });
     if (!user) {
