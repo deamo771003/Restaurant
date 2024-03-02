@@ -23,7 +23,7 @@ async function startApp() {
   if (process.env.NODE_ENV == 'production') {
     await loadSecrets()
   }
-  console.log(`APP HOST= ${RDS_HOSTNAME}`)
+  console.log(`APP HOST= ${process.env.RDS_HOSTNAME}`)
 
   await db.sequelize.authenticate()
   console.log('Database connection has been established successfully.')
