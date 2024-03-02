@@ -7,14 +7,6 @@ const LocalStrategy = require('passport-local').Strategy
 // const FacebookStrategy = require('passport-facebook').Strategy
 const bcrypt = require('bcryptjs')
 const { User, Restaurant } = require('../models')
-const { loadSecrets } = require('../helpers/loadSecrets')
-
-async function productionLoadSecrets() {
-  if (process.env.NODE_ENV == 'production') {
-    await loadSecrets()
-  }
-  console.log('Passport Secrets loaded.')
-}
 
 passport.use(new LocalStrategy({
   usernameField: 'email',
@@ -22,8 +14,6 @@ passport.use(new LocalStrategy({
   passReqToCallback: true
 }, async (req, email, password, cb) => {
   try {
-    await productionLoadSecrets()
-    console.log(`Passport RDS_HOSTNAME= ${process.env.RDS_HOSTNAME}`)
     const user = await User.findOne({ where: { email } });
     if (!user) {
       return cb(null, false, req.flash('error_messages', '帳號或密碼輸入錯誤！'));

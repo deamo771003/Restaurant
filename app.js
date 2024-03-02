@@ -10,18 +10,21 @@ const methodOverride = require('method-override')
 const flash = require('connect-flash')
 const { getUser } = require('./helpers/auth-helpers')
 const app = express()
-const client = require('./config/redis')
+// const client = require('./config/redis')
 // const RedisStore = require('connect-redis').default
 const { loadSecrets } = require('./helpers/loadSecrets')
 const handlebarsHelpers = require('./helpers/handlebars-helpers')
 const passport = require('./config/passport')
 const routes = require('./routes')
 const port = process.env.PORT || 3000
+const db = require('./models')
 
 async function startApp() {
   if (process.env.NODE_ENV == 'production') {
     await loadSecrets()
   }
+
+  await db.sequelize.authenticate()
 
   app.engine('hbs', handlebars({ extname: '.hbs', helpers: handlebarsHelpers }))
   app.set('view engine', 'hbs')
