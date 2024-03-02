@@ -22,6 +22,7 @@ const { loadSecrets } = require('./helpers/loadSecrets')
 if (process.env.NODE_ENV == 'production') {
   loadSecrets()
 }
+console.log(`APP SESSION_SECRET= ${process.env.SESSION_SECRET} `)
 
 db.initializeDatabase()
 console.log('Database initialization complete.')
