@@ -17,11 +17,11 @@ const passport = require('./config/passport')
 const routes = require('./routes')
 const port = process.env.PORT || 3000
 const db = require('./models')
-// const { loadSecrets } = require('./helpers/loadSecrets')
+const { loadSecrets } = require('./helpers/loadSecrets')
 
 // async function startApp() {
 //   if (process.env.NODE_ENV == 'production') {
-//     await loadSecrets()
+loadSecrets()
 //   }
 
 db.initializeDatabase()
