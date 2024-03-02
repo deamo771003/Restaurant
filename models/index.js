@@ -37,9 +37,9 @@ async function initializeDatabase() {
   }
 }
 
-// (async () => {
-//   await initialize()
-// })();
+(async () => {
+  await initializeDatabase()
+})();
 
 // 使用互動模組提取 models 路徑
 fs
