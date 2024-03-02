@@ -20,10 +20,11 @@ const db = require('./models')
 const { loadSecrets } = require('./helpers/loadSecrets')
 
   (async () => {
-    await loadSecrets()
+    if (process.env.NODE_ENV == 'production') {
+      await loadSecrets()
+    }
 
-
-    db.initializeDatabase()
+    await db.initializeDatabase()
     console.log('Database initialization complete.')
 
     app.engine('hbs', handlebars({ extname: '.hbs', helpers: handlebarsHelpers }))
