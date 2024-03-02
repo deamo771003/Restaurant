@@ -19,10 +19,9 @@ const port = process.env.PORT || 3000
 const db = require('./models')
 const { loadSecrets } = require('./helpers/loadSecrets')
 
-// async function startApp() {
-//   if (process.env.NODE_ENV == 'production') {
-loadSecrets()
-//   }
+  (async () => {
+    await loadSecrets()
+  })();
 
 db.initializeDatabase()
 console.log('Database initialization complete.')
@@ -64,10 +63,5 @@ app.use(routes);
 app.listen(port, () => {
   console.info(`listening on port ${port}`)
 })
-// }
-
-// startApp().catch((error) => {
-//   console.error("Failed to start the server:", error)
-// })
 
 module.exports = app
