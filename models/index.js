@@ -55,13 +55,15 @@ async function initializeDatabase() {
     await sequelize.sync() // 欲重跑 model 加入 { force: true }
     console.log('Table created successfully.')
 
-    db.sequelize = sequelize
-    db.Sequelize = Sequelize
+
 
   } catch (error) {
     console.error('Unable to connect to the database:', error);
   }
 }
+
+db.sequelize = sequelize
+db.Sequelize = Sequelize
 
 module.exports = {
   db,
