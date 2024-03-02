@@ -10,10 +10,10 @@ const Sequelize = require('sequelize')
 const basename = path.basename(__filename)
 const env = process.env.NODE_ENV || 'development'
 let config = require('../config/config')[env]
-const db = {}
 const { loadSecrets } = require('../helpers/loadSecrets')
 
-let sequelize = {}
+const db = {}
+let sequelize
 
 async function initializeDatabase() {
   if (env == 'production') {
@@ -28,7 +28,7 @@ async function initializeDatabase() {
     port: process.env.RDS_DB_PORT,
     dialect: 'mysql'
   }
-  const sequelize = new Sequelize(config.database, config.username, config.password, config)
+  sequelize = new Sequelize(config.database, config.username, config.password, config)
 
   try {
     await sequelize.authenticate()
@@ -62,8 +62,6 @@ async function initializeDatabase() {
     console.error('Unable to connect to the database:', error);
   }
 }
-
-
 
 module.exports = {
   db,
