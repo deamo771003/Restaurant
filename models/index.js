@@ -12,13 +12,8 @@ const env = process.env.NODE_ENV || 'development'
 let config = require('../config/config')[env]
 const db = {}
 const { loadSecrets } = require('../helpers/loadSecrets')
-// const Category = require('./category')
-// const Comment = require('./comment')
-// const Favorite = require('./favorite')
-// const Followship = require('./followship')
-// const Like = require('./like')
-// const Restaurant = require('./restaurant')
-// const User = require('./user')
+
+let sequelize = {}
 
 async function initializeDatabase() {
   if (env == 'production') {
@@ -60,14 +55,15 @@ async function initializeDatabase() {
     await sequelize.sync() // 欲重跑 model 加入 { force: true }
     console.log('Table created successfully.')
 
+    db.sequelize = sequelize
+    db.Sequelize = Sequelize
 
   } catch (error) {
     console.error('Unable to connect to the database:', error);
   }
 }
 
-db.sequelize = sequelize
-db.Sequelize = Sequelize
+
 
 module.exports = {
   db,
