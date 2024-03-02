@@ -12,13 +12,13 @@ const env = process.env.NODE_ENV || 'development'
 let config = require('../config/config')[env]
 const db = {}
 const { loadSecrets } = require('../helpers/loadSecrets')
-const Category = require('./category')
-const Comment = require('./comment')
-const Favorite = require('./favorite')
-const Followship = require('./followship')
-const Like = require('./like')
-const Restaurant = require('./restaurant')
-const User = require('./user')
+// const Category = require('./category')
+// const Comment = require('./comment')
+// const Favorite = require('./favorite')
+// const Followship = require('./followship')
+// const Like = require('./like')
+// const Restaurant = require('./restaurant')
+// const User = require('./user')
 
 async function initializeDatabase() {
   if (env == 'production') {
