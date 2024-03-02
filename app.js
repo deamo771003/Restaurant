@@ -23,7 +23,6 @@ async function startApp() {
   if (process.env.NODE_ENV == 'production') {
     await loadSecrets()
   }
-  console.log(`APP HOST= ${process.env.RDS_HOSTNAME}`)
 
   db.initializeDatabase().then(() => {
     console.log('Database initialization complete.')

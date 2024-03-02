@@ -35,6 +35,8 @@ async function initializeDatabase() {
   } catch (error) {
     console.error('Unable to connect to the database:', error);
   }
+
+  // 使用互動模組提取 models 路徑
   fs
     .readdirSync(__dirname)
     .filter(file => {
@@ -55,8 +57,6 @@ async function initializeDatabase() {
   db.sequelize = sequelize
   db.Sequelize = Sequelize
 }
-
-// 使用互動模組提取 models 路徑
 
 db.initializeDatabase = initializeDatabase
 
