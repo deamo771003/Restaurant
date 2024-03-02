@@ -24,8 +24,7 @@ async function startApp() {
     await loadSecrets()
   }
 
-  await initializeDatabase()
-  console.log('Database initialization complete.')
+
 
   app.engine('hbs', handlebars({ extname: '.hbs', helpers: handlebarsHelpers }))
   app.set('view engine', 'hbs')
@@ -49,6 +48,9 @@ async function startApp() {
   app.use(passport.initialize())
   app.use(passport.session())
   app.use(methodOverride('_method'))
+
+  await initializeDatabase()
+  console.log('Database initialization complete.')
 
   app.use('/upload', express.static(path.join(__dirname, 'upload')))
 
