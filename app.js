@@ -24,8 +24,6 @@ async function startApp() {
     await loadSecrets()
   }
 
-
-
   app.engine('hbs', handlebars({ extname: '.hbs', helpers: handlebarsHelpers }))
   app.set('view engine', 'hbs')
 

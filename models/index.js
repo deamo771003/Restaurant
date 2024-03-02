@@ -6,7 +6,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 const fs = require('fs')
 const path = require('path')
-const Sequelize = require('sequelize')
+const Sequelize = require('sequelize');
 const basename = path.basename(__filename)
 const env = process.env.NODE_ENV || 'development'
 let config = require('../config/config')[env]
@@ -30,36 +30,23 @@ async function initializeDatabase() {
   }
   sequelize = new Sequelize(config.database, config.username, config.password, config)
 
-  try {
-    await sequelize.authenticate()
-    console.log('Connection has been established successfully.')
-
-    // 使用互動模組提取 models 路徑
-    fs
-      .readdirSync(__dirname)
-      .filter(file => {
-        return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) == '.js');
-      })
-
-      .forEach(file => {
-        const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
-        db[model.name] = model;
-      });
-
-    Object.keys(db).forEach(modelName => {
-      if (modelName !== "sequelize" && modelName !== "Sequelize" && db[modelName].associate) {
-        db[modelName].associate(db);
-      }
+  // 使用互動模組提取 models 路徑
+  fs
+    .readdirSync(__dirname)
+    .filter(file => {
+      return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) == '.js');
     })
 
-    await sequelize.sync() // 欲重跑 model 加入 { force: true }
-    console.log('Table created successfully.')
+    .forEach(file => {
+      const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
+      db[model.name] = model;
+    });
 
-
-
-  } catch (error) {
-    console.error('Unable to connect to the database:', error);
-  }
+  Object.keys(db).forEach(modelName => {
+    if (modelName !== "sequelize" && modelName !== "Sequelize" && db[modelName].associate) {
+      db[modelName].associate(db);
+    }
+  })
 }
 
 db.sequelize = sequelize
