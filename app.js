@@ -25,8 +25,13 @@ async function startApp() {
   }
   console.log(`APP HOST= ${process.env.RDS_HOSTNAME}`)
 
-  await db.sequelize.authenticate()
-  console.log('Database connection has been established successfully.')
+  db.initializeDatabase().then(() => {
+    console.log('Database initialization complete.')
+    // Any other logic that should happen after database initialization
+  }).catch(err => {
+    console.error('Database initialization failed:', err)
+  })
+
 
   app.engine('hbs', handlebars({ extname: '.hbs', helpers: handlebarsHelpers }))
   app.set('view engine', 'hbs')

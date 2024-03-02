@@ -14,7 +14,7 @@ const db = {}
 const { loadSecrets } = require('../helpers/loadSecrets')
 
 let sequelize
-async function initialize() {
+async function initializeDatabase() {
   if (env == 'production') {
     await loadSecrets()
   }
@@ -27,13 +27,19 @@ async function initialize() {
     port: process.env.RDS_DB_PORT,
     dialect: 'mysql'
   }
+  sequelize = new Sequelize(config.database, config.username, config.password, config)
+  try {
+    await sequelize.authenticate()
+    await sequelize.sync() // 欲重跑 model 加入 { force: true }
+    console.log('Table created successfully.')
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
+  }
 }
 
-(async () => {
-  await initialize()
-})();
-
-sequelize = new Sequelize(config.database, config.username, config.password, config)
+// (async () => {
+//   await initialize()
+// })();
 
 // 使用互動模組提取 models 路徑
 fs
@@ -55,5 +61,6 @@ Object.keys(db).forEach(modelName => {
 
 db.sequelize = sequelize
 db.Sequelize = Sequelize
+db.initializeDatabase = initializeDatabase
 
 module.exports = db
