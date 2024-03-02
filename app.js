@@ -12,19 +12,21 @@ const { getUser } = require('./helpers/auth-helpers')
 const app = express()
 // const client = require('./config/redis')
 // const RedisStore = require('connect-redis').default
-const { loadSecrets } = require('./helpers/loadSecrets')
 const handlebarsHelpers = require('./helpers/handlebars-helpers')
 const passport = require('./config/passport')
 const routes = require('./routes')
 const port = process.env.PORT || 3000
 const db = require('./models')
+const { loadSecrets } = require('./helpers/loadSecrets')
 
 async function startApp() {
   if (process.env.NODE_ENV == 'production') {
     await loadSecrets()
   }
+  console.log(`APP HOST= ${RDS_HOSTNAME}`)
 
   await db.sequelize.authenticate()
+  console.log('Database connection has been established successfully.')
 
   app.engine('hbs', handlebars({ extname: '.hbs', helpers: handlebarsHelpers }))
   app.set('view engine', 'hbs')
