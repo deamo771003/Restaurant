@@ -67,10 +67,9 @@ async function initializeDatabase() {
   }
 }
 
-db.initializeDatabase = initializeDatabase
-
 module.exports = {
   db,
+  initializeDatabase,
   Category,
   Comment,
   Favorite,
