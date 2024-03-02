@@ -70,11 +70,4 @@ async function initializeDatabase() {
 module.exports = {
   db,
   initializeDatabase,
-  Category,
-  Comment,
-  Favorite,
-  Followship,
-  Like,
-  Restaurant,
-  User
 }

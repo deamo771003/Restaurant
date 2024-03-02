@@ -16,7 +16,7 @@ const handlebarsHelpers = require('./helpers/handlebars-helpers')
 const passport = require('./config/passport')
 const routes = require('./routes')
 const port = process.env.PORT || 3000
-const db = require('./models')
+const { initializeDatabase } = require('./models')
 const { loadSecrets } = require('./helpers/loadSecrets')
 
 async function startApp() {
@@ -24,7 +24,7 @@ async function startApp() {
     await loadSecrets()
   }
 
-  await db.initializeDatabase()
+  await initializeDatabase()
   console.log('Database initialization complete.')
 
   app.engine('hbs', handlebars({ extname: '.hbs', helpers: handlebarsHelpers }))
