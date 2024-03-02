@@ -70,4 +70,4 @@ startApp().catch((error) => {
   console.error("Failed to start the server:", error)
 })
 
-module.exports = app
+// module.exports = app

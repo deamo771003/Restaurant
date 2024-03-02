@@ -26,7 +26,7 @@ passport.use(new LocalStrategy({
   } catch (err) {
     return cb(err);
   }
-}));
+}))
 
 // passport.use(new FacebookStrategy({
 //   clientID: process.env.FACEBOOK_ID,
@@ -49,7 +49,7 @@ passport.use(new LocalStrategy({
 //   }
 // }));
 
-passport.serializeUser((user, cb) => cb(null, user.id));
+passport.serializeUser((user, cb) => cb(null, user.id))
 passport.deserializeUser(async (id, cb) => {
   try {
     const user = await User.findByPk(id, {
@@ -60,9 +60,9 @@ passport.deserializeUser(async (id, cb) => {
         { model: User, as: 'Followings' }
       ]
     });
-    cb(null, user.toJSON());
+    cb(null, user.toJSON())
   } catch (err) {
-    cb(err);
+    cb(err)
   }
 })
 
