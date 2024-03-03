@@ -6,7 +6,7 @@ const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 // const FacebookStrategy = require('passport-facebook').Strategy
 const bcrypt = require('bcryptjs')
-const { User, Restaurant } = require('../models').db
+const { User, Restaurant } = require('../models')
 
 passport.use(new LocalStrategy({
   usernameField: 'email',
@@ -14,6 +14,7 @@ passport.use(new LocalStrategy({
   passReqToCallback: true
 }, async (req, email, password, cb) => {
   try {
+    console.log(`passport HOST= ${process.env.RDS_HOSTNAME}`)
     const user = await User.findOne({ where: { email } });
     if (!user) {
       return cb(null, false, req.flash('error_messages', '帳號或密碼輸入錯誤！'));
