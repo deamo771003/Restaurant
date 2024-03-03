@@ -42,12 +42,13 @@ async function startApp() {
     }
   }))
 
+  await initializeDatabase()
+
   app.use(flash());
   app.use(passport.initialize())
   app.use(passport.session())
   app.use(methodOverride('_method'))
 
-  await initializeDatabase()
   console.log('Database initialization complete.')
 
   app.use('/upload', express.static(path.join(__dirname, 'upload')))
