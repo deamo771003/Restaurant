@@ -76,35 +76,19 @@ npm install --save-dev cross-env
 npm install --save-dev nodemon
 ```
 
-7. 新增.env 檔並加入以下內容
-
-```
-IMGUR_CLIENT_ID=自定義(圖片存儲)
-FACEBOOK_ID=自定義(OAuth)
-FACEBOOK_SECRET=自定義(OAuth)
-FACEBOOK_CALLBACK=自定義(OAuth)
-SESSION_SECRET=自定義
-REDIS_URL=redis://redis:6379 (docker)
-RDS_USERNAME=自定義
-RDS_PASSWORD=自定義
-RDS_DB_NAME=自定義
-RDS_HOSTNAME=自定義
-RDS_PORT=3306
-```
-
-8. 載入 MySQL Table
+7. 載入 MySQL Table
 
 ```
 npx sequelize db:migrate
 ```
 
-9. 載入預設範例資料
+8. 載入預設範例資料
 
 ```
 npx sequelize db:seed:all
 ```
 
-10. terminal 輸入啟動
+9. terminal 輸入啟動
 
 ```
 npm run dev
