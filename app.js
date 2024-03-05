@@ -14,7 +14,7 @@ const app = express()
 // const RedisStore = require('connect-redis').default
 const handlebarsHelpers = require('./helpers/handlebars-helpers')
 const { loadSecrets } = require('./helpers/loadSecrets')
-const { initializeDatabase } = require('./models')
+// const { initializeDatabase } = require('./models')
 const passport = require('./config/passport')
 const routes = require('./routes')
 const port = process.env.PORT || 3000
@@ -42,7 +42,7 @@ async function startApp() {
     }
   }))
 
-  await initializeDatabase()
+  // await initializeDatabase()
 
   app.use(flash());
   app.use(passport.initialize())
