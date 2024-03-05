@@ -4,7 +4,7 @@ const { getSecret } = require('../helpers/getSecretsManager')
 
 
 async function createEnv() {
-  const envPath = './.env'
+  const envPath = '../.env'
   if (process.env.NODE_ENV == 'production') {
     const secretName = 'restaurant-AWS-secret'
     const secrets = await getSecret(secretName)
