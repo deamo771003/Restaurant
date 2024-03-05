@@ -11,49 +11,59 @@ const app = express()
 // const client = require('./config/redis')
 // const RedisStore = require('connect-redis').default
 const handlebarsHelpers = require('./helpers/handlebars-helpers')
+const createEnv = require('./helpers/createEnv')
 const passport = require('./config/passport')
 const routes = require('./routes')
 const port = process.env.PORT || 3000
 
-
-app.engine('hbs', handlebars({ extname: '.hbs', helpers: handlebarsHelpers }))
-app.set('view engine', 'hbs')
-
-app.use(express.urlencoded({ extended: true }))
-// let redisStore = new RedisStore({ client })
-app.use(session({
-  // store: redisStore,
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    maxAge: 60 * 60 * 1000 * 24,
-    secure: false,
-    httpOnly: true,
-    sameSite: 'lax'
+async function startApp() {
+  if (process.env.NODE_ENV == 'production') {
+    await createEnv()
   }
-}))
 
-app.use(flash());
-app.use(passport.initialize())
-app.use(passport.session())
-app.use(methodOverride('_method'))
+  app.engine('hbs', handlebars({ extname: '.hbs', helpers: handlebarsHelpers }))
+  app.set('view engine', 'hbs')
 
-console.log('Database initialization complete.')
+  app.use(express.urlencoded({ extended: true }))
+  // let redisStore = new RedisStore({ client })
+  app.use(session({
+    // store: redisStore,
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 60 * 60 * 1000 * 24,
+      secure: false,
+      httpOnly: true,
+      sameSite: 'lax'
+    }
+  }))
 
-app.use('/upload', express.static(path.join(__dirname, 'upload')))
+  app.use(flash());
+  app.use(passport.initialize())
+  app.use(passport.session())
+  app.use(methodOverride('_method'))
 
-app.use((req, res, next) => {
-  res.locals.success_messages = req.flash('success_messages')
-  res.locals.error_messages = req.flash('error_messages')
-  res.locals.user = getUser(req)
-  next()
-});
+  console.log('Database initialization complete.')
 
-app.use(routes);
+  app.use('/upload', express.static(path.join(__dirname, 'upload')))
 
-app.listen(port, () => {
-  console.info(`listening on port ${port}`)
+  app.use((req, res, next) => {
+    res.locals.success_messages = req.flash('success_messages')
+    res.locals.error_messages = req.flash('error_messages')
+    res.locals.user = getUser(req)
+    next()
+  });
+
+  app.use(routes);
+
+  app.listen(port, () => {
+    console.info(`listening on port ${port}`)
+  })
+}
+
+startApp().catch((error) => {
+  console.error("Failed to start the server:", error)
 })
 
 module.exports = app

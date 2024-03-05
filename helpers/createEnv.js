@@ -1,7 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 const { execSync } = require('child_process')
-const { getSecret } = require('../helpers/getSecretsManager')
+const { getSecret } = require('./getSecretsManager')
 
 
 async function createEnv() {
@@ -32,6 +32,4 @@ async function createEnv() {
   }
 }
 
-(async () => {
-  await createEnv()
-})();
+module.exports = createEnv
