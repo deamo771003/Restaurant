@@ -32,4 +32,6 @@ async function createEnv() {
   }
 }
 
-module.exports = { createEnv }
+(async () => {
+  await createEnv()
+})();
