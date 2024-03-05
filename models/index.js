@@ -11,16 +11,15 @@ const basename = path.basename(__filename)
 const env = process.env.NODE_ENV || 'development'
 let config = require('../config/config')[env]
 const { loadSecrets } = require('../helpers/loadSecrets')
-
 const db = {}
-let sequelize
 
+let sequelize
 async function initializeDatabase() {
   if (env == 'production') {
     await loadSecrets()
     console.log('Secrets loaded.')
   }
-  
+
   config = {
     username: process.env.RDS_USERNAME,
     password: process.env.RDS_PASSWORD,
@@ -48,12 +47,12 @@ async function initializeDatabase() {
       db[modelName].associate(db);
     }
   })
+
+  db.sequelize = sequelize
+  db.Sequelize = Sequelize
 }
 
 initializeDatabase()
-
-db.sequelize = sequelize
-db.Sequelize = Sequelize
 
 module.exports = db
 

@@ -6,7 +6,7 @@ const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 // const FacebookStrategy = require('passport-facebook').Strategy
 const bcrypt = require('bcryptjs')
-const { Users, Restaurants } = require('../models')
+const { User, Restaurant } = require('../models')
 
 passport.use(new LocalStrategy({
   usernameField: 'email',
@@ -14,7 +14,7 @@ passport.use(new LocalStrategy({
   passReqToCallback: true
 }, async (req, email, password, cb) => {
   try {
-    const user = await Users.findOne({ where: { email } });
+    const user = await User.findOne({ where: { email } });
     if (!user) {
       return cb(null, false, req.flash('error_messages', '帳號或密碼輸入錯誤！'));
     }
@@ -54,8 +54,8 @@ passport.deserializeUser(async (id, cb) => {
   try {
     const user = await User.findByPk(id, {
       include: [
-        { model: Restaurants, as: 'FavoritedRestaurants' },
-        { model: Restaurants, as: 'LikedRestaurants' },
+        { model: Restaurant, as: 'FavoritedRestaurants' },
+        { model: Restaurant, as: 'LikedRestaurants' },
         { model: User, as: 'Followers' },
         { model: User, as: 'Followings' }
       ]
