@@ -23,7 +23,7 @@ async function createEnv() {
     try {
       fs.writeFileSync(envPath, envContent)
 
-      execSync(`chmod 600 ${envPath}`)
+      execSync(`sudo chmod 600 ${envPath}`)
       console.log('Create .env  success')
     } catch (error) {
       console.error('Create .env error:', error)
