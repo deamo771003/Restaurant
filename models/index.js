@@ -40,10 +40,10 @@ async function initializeDatabase() {
       })
 
     Object.keys(db).forEach(modelName => {
-      if (db[modelName].associate) {
-        db[modelName].associate(db)
+      if (db[modelName].associate && typeof db[modelName].associate === 'function') {
+        db[modelName].associate(db);
       }
-    })
+    });
 
     await sequelize.authenticate()
     console.log('Database connection has been established successfully.')
