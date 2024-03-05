@@ -1,10 +1,11 @@
 const fs = require('fs')
+const path = require('path')
 const { execSync } = require('child_process')
 const { getSecret } = require('../helpers/getSecretsManager')
 
 
 async function createEnv() {
-  const envPath = '../.env'
+  const envPath = path.join(__dirname, '..', '.env')
   if (process.env.NODE_ENV == 'production') {
     const secretName = 'restaurant-AWS-secret'
     const secrets = await getSecret(secretName)
