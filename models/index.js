@@ -38,7 +38,7 @@ async function initializeDatabase() {
     })
 
     .forEach(file => {
-      const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
+      const model = require(path.join(__dirname, file))(sequelize, DataTypes);
       db[model.name] = model;
     });
 
@@ -47,10 +47,9 @@ async function initializeDatabase() {
       db[modelName].associate(db);
     }
   })
-
-  db.sequelize = sequelize
 }
 
+db.sequelize = sequelize
 db.Sequelize = Sequelize
 
 module.exports = {

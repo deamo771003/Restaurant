@@ -13,11 +13,11 @@ const app = express()
 // const client = require('./config/redis')
 // const RedisStore = require('connect-redis').default
 const handlebarsHelpers = require('./helpers/handlebars-helpers')
+const { loadSecrets } = require('./helpers/loadSecrets')
+const { initializeDatabase } = require('./models')
 const passport = require('./config/passport')
 const routes = require('./routes')
 const port = process.env.PORT || 3000
-const { initializeDatabase } = require('./models')
-const { loadSecrets } = require('./helpers/loadSecrets')
 
 async function startApp() {
   if (process.env.NODE_ENV == 'production') {
