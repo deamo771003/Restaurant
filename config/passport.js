@@ -1,7 +1,5 @@
-if (process.env.NODE_ENV !== 'production') {
-  const dotenv = require('dotenv')
-  dotenv.config()
-}
+const dotenv = require('dotenv')
+dotenv.config()
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 // const FacebookStrategy = require('passport-facebook').Strategy

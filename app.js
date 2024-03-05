@@ -1,7 +1,5 @@
-if (process.env.NODE_ENV !== 'production') {
-  const dotenv = require('dotenv')
-  dotenv.config()
-}
+const dotenv = require('dotenv')
+dotenv.config()
 const express = require('express')
 const path = require('path')
 const handlebars = require('express-handlebars')
@@ -13,17 +11,16 @@ const app = express()
 // const client = require('./config/redis')
 // const RedisStore = require('connect-redis').default
 const handlebarsHelpers = require('./helpers/handlebars-helpers')
-const { loadSecrets } = require('./helpers/loadSecrets')
-// const { initializeDatabase } = require('./models')
+const { createEnv } = require('./helpers/createEnv')
 const passport = require('./config/passport')
 const routes = require('./routes')
 const port = process.env.PORT || 3000
 
 async function startApp() {
   if (process.env.NODE_ENV == 'production') {
-    await loadSecrets()
+    await createEnv()
   }
-
+  
   app.engine('hbs', handlebars({ extname: '.hbs', helpers: handlebarsHelpers }))
   app.set('view engine', 'hbs')
 
@@ -41,8 +38,6 @@ async function startApp() {
       sameSite: 'lax'
     }
   }))
-
-  // await initializeDatabase()
 
   app.use(flash());
   app.use(passport.initialize())
