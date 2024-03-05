@@ -8,8 +8,7 @@
     "sequelize": "sequelize",
     "migrate": "node scripts/migrate.js",
     "seeders": "node scripts/seeders.js",
-    "undoseeders": "node scripts/undo-seeders.js",
-    "createenv": "node scripts/createEnv.js"
+    "undoseeders": "node scripts/undo-seeders.js"
   },
   "dependencies": {
     "@aws-sdk/client-secrets-manager": "^3.523.0",

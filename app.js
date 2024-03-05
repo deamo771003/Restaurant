@@ -11,15 +11,9 @@ const app = express()
 // const client = require('./config/redis')
 // const RedisStore = require('connect-redis').default
 const handlebarsHelpers = require('./helpers/handlebars-helpers')
-// const createEnv = require('./helpers/createEnv')
 const passport = require('./config/passport')
 const routes = require('./routes')
 const port = process.env.PORT || 3000
-
-// async function startApp() {
-//   if (process.env.NODE_ENV == 'production') {
-//     await createEnv()
-//   }
 
 app.engine('hbs', handlebars({ extname: '.hbs', helpers: handlebarsHelpers }))
 app.set('view engine', 'hbs')
@@ -60,10 +54,5 @@ app.use(routes);
 app.listen(port, () => {
   console.info(`listening on port ${port}`)
 })
-// }
-
-// startApp().catch((error) => {
-//   console.error("Failed to start the server:", error)
-// })
 
 module.exports = app
