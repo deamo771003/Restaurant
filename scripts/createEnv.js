@@ -1,6 +1,6 @@
 const fs = require('fs')
 const { execSync } = require('child_process')
-const { getSecret } = require('./getSecretsManager')
+const { getSecret } = require('../helpers/getSecretsManager')
 
 
 async function createEnv() {
