@@ -11,7 +11,7 @@ RUN npm install
 
 # 安裝 mysql 模組
 RUN apt-get update && \
-  apt-get install -y default-mysql-client
+  apt-get install -y default-mysql-client && \ npm run createenv
 
 # Copy the rest of your application
 COPY . .
