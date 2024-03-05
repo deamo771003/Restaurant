@@ -7,7 +7,7 @@ async function createEnv() {
   const envPath = './.env'
   if (process.env.NODE_ENV == 'production') {
     const secretName = 'restaurant-AWS-secret'
-    await getSecret(secretName)
+    const secrets = await getSecret(secretName)
     const envContent = `RDS_USERNAME=${secrets.RDS_USERNAME}
     RDS_PASSWORD=${secrets.RDS_PASSWORD}
     RDS_DB_NAME=${secrets.RDS_DB_NAME}
